@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Ashraya Events — Design System (Tailwind v4 CSS-first config)
+   Palette: Maroon & Gold (luxe). Edit the hex values below to retheme the site.
+   ========================================================================== */
+@theme {
+  /* Brand colors */
+  --color-cream: #fbf6ee; /* warm ivory — page background base */
+  --color-sand: #f4e9dc; /* champagne — soft section tint */
+  --color-sage: #eddad3; /* blush — warm section tint (name kept for compat) */
+  --color-maroon: #9b1c22; /* primary — brand crimson (matches logo) */
+  --color-maroon-dark: #6e1116; /* hover / deep */
+  --color-maroon-light: #bc3a40;
+  --color-gold: #c2a24e; /* accent — antique gold */
+  --color-gold-light: #e2cd92;
+  --color-gold-dark: #9a7a2c;
+  --color-ink: #241318; /* body text — warm near-black */
+  --color-ink-soft: #5b4650; /* muted text */
+
+  /* Semantic aliases used across the app */
+  --color-background: var(--color-cream);
+  --color-foreground: var(--color-ink);
+
+  /* Typography — wired to next/font variables in layout.tsx */
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion / shape */
+  --radius-xl2: 1.75rem;
+  --shadow-soft: 0 20px 60px -25px rgba(74, 16, 32, 0.35);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-maroon-dark);
+  }
+}
+
+@layer utilities {
+  /* Small caps label used above section headings */
+  .eyebrow {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  /* Thin gold divider */
+  .rule-gold {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold),
+      transparent
+    );
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Blog article body (PortableText output) */
+  .prose-blog p {
+    margin-bottom: 1.25rem;
+  }
+  .prose-blog h2 {
+    font-size: 1.9rem;
+    color: var(--color-maroon);
+    margin: 2.25rem 0 1rem;
+  }
+  .prose-blog h3 {
+    font-size: 1.4rem;
+    color: var(--color-maroon);
+    margin: 1.75rem 0 0.75rem;
+  }
+  .prose-blog ul,
+  .prose-blog ol {
+    margin: 0 0 1.25rem 1.25rem;
+    list-style: disc;
+  }
+  .prose-blog li {
+    margin-bottom: 0.4rem;
+  }
+  .prose-blog a {
+    color: var(--color-gold-dark);
+    text-decoration: underline;
+  }
+  .prose-blog blockquote {
+    border-left: 3px solid var(--color-gold);
+    padding-left: 1.25rem;
+    font-style: italic;
+    color: var(--color-ink-soft);
+    margin: 1.5rem 0;
+  }
+}
+
+/* Respect reduced-motion for all Framer Motion + CSS transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

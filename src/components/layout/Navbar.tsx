@@ -47,8 +47,8 @@ export default function Navbar() {
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-        <Logo className="text-maroon" size="lg" showTagline={false} />
+      <nav className="mx-auto flex max-w-7xl items-center justify-between py-4 pl-2 pr-5 sm:pl-4 sm:pr-8">
+        <Logo className="text-maroon" size="md" showTagline={false} />
 
         {/* Desktop links */}
         <ul className="font-glacial hidden items-center gap-7 lg:flex">

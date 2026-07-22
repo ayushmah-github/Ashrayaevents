@@ -11,8 +11,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ table: 
   const db = getSupabaseAdmin();
   if (!db) return NextResponse.json({ error: "Supabase not configured" }, { status: 503 });
 
-  const orderCol = table === "posts" ? "published_at" : "sort_order";
-  const { data, error } = await db.from(table).select("*").order(orderCol, { ascending: table !== "posts" });
+  // site_settings is a singleton (no sort_order); posts sort by date desc.
+  let query = db.from(table).select("*");
+  if (table === "posts") {
+    query = query.order("published_at", { ascending: false });
+  } else if (table !== "site_settings") {
+    query = query.order("sort_order", { ascending: true });
+  }
+  const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ data });
 }

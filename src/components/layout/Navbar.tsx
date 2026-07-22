@@ -48,7 +48,7 @@ export default function Navbar() {
       )}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between py-4 pl-2 pr-5 sm:pl-4 sm:pr-8">
-        <Logo className="text-maroon" size="md" showTagline={false} />
+        <Logo className="text-maroon" size="lg" showTagline={false} />
 
         {/* Desktop links */}
         <ul className="font-glacial hidden items-center gap-7 lg:flex">
@@ -60,7 +60,7 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-sm font-medium uppercase tracking-[0.15em] text-ink-soft transition-colors hover:text-gold-dark",
+                    "text-[0.7rem] font-medium uppercase tracking-[0.14em] text-ink-soft transition-colors hover:text-gold-dark",
                     active && "text-gold-dark",
                   )}
                 >

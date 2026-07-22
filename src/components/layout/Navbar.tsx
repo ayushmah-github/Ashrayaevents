@@ -15,6 +15,7 @@ import Logo from "@/components/layout/Logo";
  */
 export default function Navbar() {
   const [hidden, setHidden] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const [open, setOpen] = useState(false);
   const lastY = useRef(0);
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
+      setAtTop(y < 10);
       if (y < 10) {
         setHidden(false); // always show at the very top
       } else if (y > lastY.current && y > 120) {
@@ -31,6 +33,7 @@ export default function Navbar() {
       }
       lastY.current = y;
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -41,7 +44,12 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 bg-maroon text-cream shadow-[0_6px_24px_-14px_rgba(0,0,0,0.6)] transition-transform duration-300 ease-out",
+        "fixed inset-x-0 top-0 z-50 text-cream transition-all duration-300 ease-out",
+        // Transparent (with a soft scrim for legibility) at the very top;
+        // solid crimson once scrolled or when the mobile menu is open.
+        atTop && !open
+          ? "bg-gradient-to-b from-black/55 via-black/20 to-transparent"
+          : "bg-maroon shadow-[0_6px_24px_-14px_rgba(0,0,0,0.6)]",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >

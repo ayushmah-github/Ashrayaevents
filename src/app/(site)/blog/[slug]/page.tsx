@@ -8,7 +8,8 @@ import Container from "@/components/ui/Container";
 import CTASection from "@/components/sections/CTASection";
 import { getPost, getPosts } from "@/lib/cms/content";
 
-export const revalidate = 60;
+// Always read the latest post content from the database.
+export const revalidate = 0;
 
 // Pre-render known slugs (placeholder + published).
 export async function generateStaticParams() {

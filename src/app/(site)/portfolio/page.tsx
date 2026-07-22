@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     "Explore Ashraya Events' portfolio of weddings, destination celebrations, corporate events and parties.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PortfolioPage() {
   const portfolio = await getPortfolio();
   return (

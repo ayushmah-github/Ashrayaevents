@@ -12,6 +12,8 @@ export const metadata: Metadata = {
     "Read what couples and clients say about celebrating with Ashraya Events.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TestimonialsPage() {
   const testimonials = await getTestimonials();
   return (

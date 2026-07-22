@@ -15,6 +15,8 @@ export const metadata: Metadata = {
     "Weddings, destination weddings, corporate events, private parties, décor & styling, catering and entertainment — full-service event planning by Ashraya Events.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ServicesPage() {
   const services = await getServices();
   return (

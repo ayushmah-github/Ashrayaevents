@@ -15,6 +15,9 @@ import CompanyDetails from "@/components/sections/CompanyDetails";
 import CTASection from "@/components/sections/CTASection";
 import { getSiteSettings } from "@/lib/cms/content";
 
+// Read fresh content from the admin/database on every request.
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const settings = await getSiteSettings();
   return (

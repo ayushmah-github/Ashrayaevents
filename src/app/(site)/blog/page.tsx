@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     "Wedding and event planning tips, trends and inspiration from the Ashraya Events team.",
 };
 
-// Revalidate periodically so newly published Sanity posts appear.
-export const revalidate = 60;
+// Read fresh posts from the admin/database on every request.
+export const dynamic = "force-dynamic";
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString("en-IN", {

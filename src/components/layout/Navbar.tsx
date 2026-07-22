@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,20 +16,13 @@ import Logo from "@/components/layout/Logo";
  */
 export default function Navbar() {
   const [hidden, setHidden] = useState(false);
-  const [atTop, setAtTop] = useState(true);
   const [open, setOpen] = useState(false);
-  const lastY = useRef(0);
   const pathname = usePathname();
 
+  // Show only near the very top of the page; hide once scrolled down and keep it
+  // hidden (no reveal on scroll-up) until you return to the top.
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setAtTop(y < 10);
-      if (y < 10) setHidden(false);
-      else if (y > lastY.current && y > 120) setHidden(true);
-      else if (y < lastY.current) setHidden(false);
-      lastY.current = y;
-    };
+    const onScroll = () => setHidden(window.scrollY > 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -40,10 +33,8 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-ink backdrop-blur-md transition-all duration-300 ease-out",
-        atTop && !open
-          ? "bg-white/25"
-          : "bg-white/85 shadow-[0_4px_22px_-14px_rgba(0,0,0,0.35)]",
+        "fixed inset-x-0 top-0 z-50 text-ink backdrop-blur-sm transition-transform duration-300 ease-out",
+        "bg-gradient-to-b from-neutral-400/55 via-neutral-300/20 to-transparent",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >

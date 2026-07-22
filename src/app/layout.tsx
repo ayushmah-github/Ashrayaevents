@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope, Allura, Jost } from "next/font/google";
+import { Cormorant_Garamond, Manrope, Allura, Montserrat } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
@@ -26,9 +26,9 @@ const allura = Allura({
   display: "swap",
 });
 
-// Navbar font — Jost is the closest free match to "Glacial Indifference".
-const jost = Jost({
-  variable: "--font-jost",
+// Navbar font.
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
 });
@@ -69,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${manrope.variable} ${allura.variable} ${jost.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${manrope.variable} ${allura.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-ink">
         {children}

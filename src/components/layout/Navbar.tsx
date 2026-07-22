@@ -33,16 +33,17 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-ink backdrop-blur-sm transition-transform duration-300 ease-out",
-        "bg-gradient-to-b from-neutral-400/55 via-neutral-300/20 to-transparent",
+        "fixed inset-x-0 top-0 z-50 text-cream transition-transform duration-300 ease-out",
+        // Dark gradient that merges into the hero banner below it.
+        "bg-gradient-to-b from-black/55 via-black/20 to-transparent",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between py-4 pl-2 pr-5 sm:pl-4 sm:pr-8">
-        <Logo className="text-maroon" size="lg" showTagline={false} />
+        <Logo className="text-cream" size="lg" showTagline={false} />
 
         {/* Desktop links */}
-        <ul className="font-glacial hidden items-center gap-7 lg:flex">
+        <ul className="font-nav hidden items-center gap-5 lg:flex">
           {navLinks.map((link) => {
             const active =
               link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -51,8 +52,8 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-[0.7rem] font-medium uppercase tracking-[0.14em] text-ink-soft transition-colors hover:text-gold-dark",
-                    active && "text-gold-dark",
+                    "inline-block px-3 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-cream/90 transition-colors hover:text-gold md:text-[12px] lg:text-[13px]",
+                    active && "text-gold",
                   )}
                 >
                   {link.label}
@@ -65,7 +66,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 text-maroon lg:hidden"
+          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 text-cream lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
@@ -83,14 +84,14 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden bg-white/95 lg:hidden"
+            className="overflow-hidden bg-maroon-dark/95 backdrop-blur-md lg:hidden"
           >
-            <ul className="font-glacial flex flex-col gap-1 px-5 pb-6 pt-2">
+            <ul className="font-nav flex flex-col gap-1 px-5 pb-6 pt-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="block rounded-xl px-4 py-3 text-sm font-medium uppercase tracking-[0.12em] text-ink-soft hover:bg-sand hover:text-maroon"
+                    className="block rounded-xl px-4 py-3 text-sm font-medium uppercase tracking-[0.12em] text-cream/90 hover:bg-maroon hover:text-gold"
                   >
                     {link.label}
                   </Link>

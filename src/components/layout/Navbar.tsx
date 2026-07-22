@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,34 +9,40 @@ import { cn } from "@/lib/utils";
 import Logo from "@/components/layout/Logo";
 
 /**
- * Shaandaar-style header: transparent over the home hero (with a soft top scrim
- * for legibility), turning solid crimson on scroll and on all inner pages.
- * White logo left, white uppercase links right.
+ * Smart, flexible header: pinned to the top, solid crimson, and it auto-hides
+ * when you scroll down and slides back in when you scroll up. Always visible at
+ * the very top of the page and while the mobile menu is open.
  */
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const lastY = useRef(0);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 10) {
+        setHidden(false); // always show at the very top
+      } else if (y > lastY.current && y > 120) {
+        setHidden(true); // scrolling down
+      } else if (y < lastY.current) {
+        setHidden(false); // scrolling up
+      }
+      lastY.current = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close the mobile menu whenever the route changes.
   useEffect(() => setOpen(false), [pathname]);
-
-  // Transparent (over image) only on the home hero before scrolling.
-  const overHero = pathname === "/" && !scrolled && !open;
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-cream transition-all duration-500",
-        overHero
-          ? "bg-gradient-to-b from-black/55 via-black/20 to-transparent"
-          : "bg-maroon shadow-[0_6px_24px_-14px_rgba(0,0,0,0.6)]",
+        "fixed inset-x-0 top-0 z-50 bg-maroon text-cream shadow-[0_6px_24px_-14px_rgba(0,0,0,0.6)] transition-transform duration-300 ease-out",
+        hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">

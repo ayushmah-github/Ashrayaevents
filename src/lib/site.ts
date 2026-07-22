@@ -59,11 +59,10 @@ export const site = {
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/testimonials", label: "Testimonials" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/services", label: "Destination Wedding" },
+  { href: "/portfolio", label: "Our Work" },
+  { href: "/blog", label: "Blogs" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export type NavLink = (typeof navLinks)[number];

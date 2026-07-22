@@ -4,30 +4,34 @@ import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /**
- * Brand logo. If `site.logoSrc` is set (e.g. "/logo.png"), the real artwork is
- * shown; otherwise an "A | E" serif monogram + wordmark is rendered, echoing the
- * Ashraya Events logo. The monogram uses `currentColor`, so set the text color
+ * Brand logo — a signature-script "Ashraya Events" wordmark with the tagline
+ * beneath (echoing the real logo). Uses `currentColor`, so set the text color
  * on/around it (ivory on the crimson navbar, ivory in the footer).
+ *
+ * If `site.logoSrc` is set (e.g. "/logo.png"), the real artwork image is shown.
+ *
+ * FONT: the wordmark uses `font-signature` (currently Allura — the closest free
+ * match to "Madelyn"). To use real Madelyn, drop the font file in and switch the
+ * `--font-allura` definition in layout.tsx to next/font/local. See README.
  */
 export default function Logo({
   className,
-  showWordmark = true,
+  showTagline = true,
   size = "md",
 }: {
   className?: string;
-  showWordmark?: boolean;
+  showTagline?: boolean;
   size?: "sm" | "md" | "lg";
 }) {
-  const letter = size === "lg" ? "text-3xl" : size === "sm" ? "text-lg" : "text-2xl";
-  const word = size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
-  const rule = size === "lg" ? "h-7" : size === "sm" ? "h-4" : "h-5";
-  const imgH = size === "lg" ? 72 : size === "sm" ? 40 : 52;
+  const word = size === "lg" ? "text-5xl" : size === "sm" ? "text-3xl" : "text-4xl";
+  const tag = size === "lg" ? "text-[0.65rem]" : "text-[0.55rem]";
+  const imgH = size === "lg" ? 76 : size === "sm" ? 44 : 56;
 
   return (
     <Link
       href="/"
       aria-label={`${site.name} home`}
-      className={cn("group inline-flex items-center gap-3", className)}
+      className={cn("group inline-flex items-center", className)}
     >
       {site.logoSrc ? (
         <Image
@@ -40,17 +44,14 @@ export default function Logo({
           style={{ height: imgH }}
         />
       ) : (
-        <>
-          {/* A | E monogram */}
-          <span className={cn("flex items-center gap-1.5 font-serif leading-none", letter)}>
-            <span>A</span>
-            <span className={cn("w-px bg-current opacity-40", rule)} aria-hidden />
-            <span>E</span>
-          </span>
-          {showWordmark && (
-            <span className={cn("font-serif tracking-wide", word)}>Ashraya Events</span>
+        <span className="flex flex-col items-center leading-none">
+          <span className={cn("font-signature", word)}>Ashraya Events</span>
+          {showTagline && (
+            <span className={cn("mt-1 font-sans uppercase tracking-[0.35em]", tag)}>
+              A home for your events
+            </span>
           )}
-        </>
+        </span>
       )}
     </Link>
   );

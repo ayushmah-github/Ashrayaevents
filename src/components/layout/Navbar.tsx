@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { navLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import Button from "@/components/ui/Button";
 import Logo from "@/components/layout/Logo";
 
 /**
@@ -62,11 +61,6 @@ export default function Navbar() {
               </li>
             );
           })}
-          <li>
-            <Button href="/estimate" variant="gold" size="md" className="uppercase tracking-[0.12em]">
-              Enquire
-            </Button>
-          </li>
         </ul>
 
         {/* Mobile toggle */}
@@ -103,11 +97,6 @@ export default function Navbar() {
                   </Link>
                 </li>
               ))}
-              <li className="mt-3 px-4">
-                <Button href="/estimate" variant="gold" className="w-full uppercase tracking-[0.12em]" size="lg">
-                  Enquire
-                </Button>
-              </li>
             </ul>
           </motion.div>
         )}

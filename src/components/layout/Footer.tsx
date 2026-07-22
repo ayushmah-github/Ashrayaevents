@@ -13,7 +13,7 @@ export default async function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Logo className="text-cream" />
+            <Logo className="text-cream" showTagline={false} />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/70">
               {site.tagline}
             </p>

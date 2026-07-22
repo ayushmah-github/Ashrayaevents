@@ -25,6 +25,7 @@
   /* Typography — wired to next/font variables in layout.tsx */
   --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-signature: var(--font-allura), "Brush Script MT", cursive;
 
   /* Motion / shape */
   --radius-xl2: 1.75rem;

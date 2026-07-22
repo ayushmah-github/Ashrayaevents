@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { site } from "@/lib/site";
 
 /**
  * Full-bleed hero (Shaandaar-style): a bright wedding photograph is the star.
@@ -25,6 +26,26 @@ export default function Hero({ images }: { images?: string[] }) {
     const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 5500);
     return () => clearInterval(t);
   }, [SLIDES.length]);
+
+  // Muted background video takes over when configured (Shaandaar-style hero).
+  if (site.heroVideoSrc) {
+    return (
+      <section className="relative h-screen w-full overflow-hidden">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={SLIDES[0]}
+        >
+          <source src={site.heroVideoSrc} type="video/mp4" />
+        </video>
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/45 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-maroon-dark/40 to-transparent" />
+      </section>
+    );
+  }
 
   return (
     <section className="relative h-screen w-full overflow-hidden">

@@ -229,3 +229,105 @@ export const stats = [
   { value: "40+", label: "Destination events" },
   { value: "5.0", label: "Average client rating" },
 ];
+
+/* ---------------------------------------------------------------------------
+ * Home-page sections (Shaandaar-style layout). [PLACEHOLDER] imagery + copy.
+ * ------------------------------------------------------------------------- */
+
+// Mosaic collage on the home page.
+export const collageImages: string[] = [
+  "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1583939411023-14783179e581?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=70&auto=format&fit=crop",
+];
+
+export type WeddingCategory = {
+  title: string;
+  description: string;
+  image: string;
+  tint: string; // pastel card background
+};
+
+export const weddingCategories: WeddingCategory[] = [
+  { title: "Destination Weddings", description: "Celebrate anywhere in the world — beaches, palaces and hillside resorts.", image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=700&q=70&auto=format&fit=crop", tint: "#F2E9DC" },
+  { title: "Beach Weddings", description: "Blue skies and golden sands for a barefoot celebration by the sea.", image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=70&auto=format&fit=crop", tint: "#EDDAD3" },
+  { title: "Palace & Fort Weddings", description: "Royal courtyards and heritage grandeur for a timeless affair.", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=700&q=70&auto=format&fit=crop", tint: "#E7E0D0" },
+  { title: "Intimate Weddings", description: "Tie the knot with your closest few in a warm, cosy setting.", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=700&q=70&auto=format&fit=crop", tint: "#DCE4DA" },
+  { title: "Garden Weddings", description: "Lush greenery and open skies for an elegant outdoor celebration.", image: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=700&q=70&auto=format&fit=crop", tint: "#E4E7DC" },
+  { title: "Mountain Weddings", description: "Say your vows amid breathtaking valleys and misty peaks.", image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=70&auto=format&fit=crop", tint: "#E7E1EA" },
+];
+
+export type Capability = { title: string; image: string };
+
+// "Services We Provide" — the 12-tile overlay grid.
+export const capabilities: Capability[] = [
+  { title: "Consultation & Planning", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=70&auto=format&fit=crop" },
+  { title: "Venue & Destination Selection", image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=70&auto=format&fit=crop" },
+  { title: "Vendor Sourcing & Management", image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=70&auto=format&fit=crop" },
+  { title: "Design & Décor Management", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=600&q=70&auto=format&fit=crop" },
+  { title: "Food & Beverage Management", image: "https://images.unsplash.com/photo-1555244162-803834f70033?w=600&q=70&auto=format&fit=crop" },
+  { title: "Budget Management", image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70&auto=format&fit=crop" },
+  { title: "Guest Hospitality & RSVP", image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&q=70&auto=format&fit=crop" },
+  { title: "Wedding Favours & Gifting", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&q=70&auto=format&fit=crop" },
+  { title: "Bridal & Wardrobe Styling", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=70&auto=format&fit=crop" },
+  { title: "Logistics Management", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=70&auto=format&fit=crop" },
+  { title: "Stationery & Invitations", image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600&q=70&auto=format&fit=crop" },
+  { title: "Entertainment & Production", image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=70&auto=format&fit=crop" },
+];
+
+export type InspirationFrame = { title: string; image: string };
+export type InspirationTab = { label: string; frames: InspirationFrame[] };
+
+// "Inspiration for Wedding Frames" — tabbed captioned gallery.
+export const inspirationTabs: InspirationTab[] = [
+  {
+    label: "Haldi",
+    frames: [
+      { title: "Marigold Floral Canopy", image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=70&auto=format&fit=crop" },
+      { title: "Colourful Lounge Seating", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&q=70&auto=format&fit=crop" },
+      { title: "Marigold Flower Installation", image: "https://images.unsplash.com/photo-1533228100845-08145b01de14?w=800&q=70&auto=format&fit=crop" },
+      { title: "Sunlit Floral Arrangement", image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=800&q=70&auto=format&fit=crop" },
+    ],
+  },
+  {
+    label: "Mehndi",
+    frames: [
+      { title: "Vibrant Lounge Décor", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=70&auto=format&fit=crop" },
+      { title: "Floral Swing Setup", image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=70&auto=format&fit=crop" },
+      { title: "Colourful Umbrellas", image: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=800&q=70&auto=format&fit=crop" },
+      { title: "Boho Tablescape", image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=70&auto=format&fit=crop" },
+    ],
+  },
+  {
+    label: "Sangeet",
+    frames: [
+      { title: "Grand Stage Design", image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=70&auto=format&fit=crop" },
+      { title: "Lighting & Ambiance", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=70&auto=format&fit=crop" },
+      { title: "Dance Floor Setup", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=70&auto=format&fit=crop" },
+      { title: "Statement Entrance", image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=70&auto=format&fit=crop" },
+    ],
+  },
+  {
+    label: "Wedding",
+    frames: [
+      { title: "Floral Mandap", image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=70&auto=format&fit=crop" },
+      { title: "Aisle Décor", image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&q=70&auto=format&fit=crop" },
+      { title: "Bougainvillea Entrance", image: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=70&auto=format&fit=crop" },
+      { title: "Palace Courtyard", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&q=70&auto=format&fit=crop" },
+    ],
+  },
+  {
+    label: "Reception",
+    frames: [
+      { title: "Elegant Tablescape", image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=70&auto=format&fit=crop" },
+      { title: "Candlelit Dinner Setup", image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=70&auto=format&fit=crop" },
+      { title: "Chandelier & Drapes", image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=70&auto=format&fit=crop" },
+      { title: "Stage & Seating", image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=70&auto=format&fit=crop" },
+    ],
+  },
+];

@@ -12,6 +12,9 @@ export const site = {
   // Real logo artwork. Save the ivory/white logo as public/logo.png, then set
   // this to "/logo.png" — it will replace the A|E monogram in the navbar/footer.
   logoSrc: "",
+  // Optional full-screen hero video (muted, autoplay). Drop a file at
+  // public/video/hero.mp4 and set this to "/video/hero.mp4". Empty = photo slideshow.
+  heroVideoSrc: "",
   description:
     "Ashraya Events is a wedding & event planning studio creating elegant, unforgettable celebrations — weddings, destination weddings, corporate events and private parties.",
   // Used for absolute URLs (OpenGraph, sitemap). Update at launch.

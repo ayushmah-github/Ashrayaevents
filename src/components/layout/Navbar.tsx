@@ -48,10 +48,10 @@ export default function Navbar() {
       )}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-        <Logo className="text-maroon" />
+        <Logo className="text-maroon" size="lg" showTagline={false} />
 
         {/* Desktop links */}
-        <ul className="hidden items-center gap-7 lg:flex">
+        <ul className="font-glacial hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => {
             const active =
               link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -60,7 +60,7 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-xs font-medium uppercase tracking-[0.15em] text-ink-soft transition-colors hover:text-gold-dark",
+                    "text-sm font-medium uppercase tracking-[0.15em] text-ink-soft transition-colors hover:text-gold-dark",
                     active && "text-gold-dark",
                   )}
                 >
@@ -94,7 +94,7 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             className="overflow-hidden bg-white/95 lg:hidden"
           >
-            <ul className="flex flex-col gap-1 px-5 pb-6 pt-2">
+            <ul className="font-glacial flex flex-col gap-1 px-5 pb-6 pt-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link

@@ -34,6 +34,10 @@ export type SiteSettings = {
   storyTitle?: string;
   storyBody?: string;
   stats?: { value: string; label: string }[];
+  introTitle?: string;
+  introBody?: string;
+  introImage1?: string;
+  introImage2?: string;
 };
 
 // [PLACEHOLDER] blog posts shown until the client publishes real ones.
@@ -153,6 +157,10 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     storyTitle: row?.story_title || undefined,
     storyBody: row?.story_body || undefined,
     stats: row?.stats?.length ? row.stats : fallbackStats,
+    introTitle: row?.intro_title || undefined,
+    introBody: row?.intro_body || undefined,
+    introImage1: row?.intro_image_1 || undefined,
+    introImage2: row?.intro_image_2 || undefined,
   };
 });
 

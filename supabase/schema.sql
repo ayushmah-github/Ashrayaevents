@@ -66,10 +66,20 @@ create table if not exists site_settings (
   story_title text,
   story_body text,
   stats jsonb default '[]',
+  intro_title text,
+  intro_body text,
+  intro_image_1 text,
+  intro_image_2 text,
   constraint single_row check (id = 1)
 );
 
 insert into site_settings (id) values (1) on conflict (id) do nothing;
+
+-- Additive columns for existing projects (safe to re-run):
+alter table site_settings add column if not exists intro_title   text;
+alter table site_settings add column if not exists intro_body    text;
+alter table site_settings add column if not exists intro_image_1 text;
+alter table site_settings add column if not exists intro_image_2 text;
 
 -- ---- Row Level Security: public can READ, only service role can WRITE -------
 alter table services         enable row level security;

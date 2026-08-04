@@ -192,8 +192,19 @@ function RecordForm({
     for (const f of resource.fields) {
       let v = values[f.name];
       if (f.type === "number") v = v === "" || v == null ? null : Number(v);
-      if ((f.type === "list" || f.type === "imagelist") && !Array.isArray(v)) v = [];
-      if (f.type === "statlist" && !Array.isArray(v)) v = [];
+      if (f.type === "boolean") {
+        payload[f.name] = Boolean(v);
+        continue;
+      }
+      if (
+        (f.type === "list" ||
+          f.type === "imagelist" ||
+          f.type === "statlist" ||
+          f.type === "addonlist" ||
+          f.type === "faqlist") &&
+        !Array.isArray(v)
+      )
+        v = [];
       if (v === "") v = null;
       payload[f.name] = v;
     }
@@ -305,6 +316,9 @@ function FieldInput({
       {field.type === "list" && <ListInput value={value} onChange={onChange} />}
       {field.type === "imagelist" && <ImageListInput value={value} onChange={onChange} />}
       {field.type === "statlist" && <StatListInput value={value} onChange={onChange} />}
+      {field.type === "boolean" && <BooleanInput value={value} onChange={onChange} />}
+      {field.type === "addonlist" && <AddonListInput value={value} onChange={onChange} />}
+      {field.type === "faqlist" && <FaqListInput value={value} onChange={onChange} />}
 
       {field.help && <p className="mt-1 text-xs text-ink-soft">{field.help}</p>}
     </div>
@@ -449,6 +463,124 @@ function StatListInput({
         className="text-sm font-medium text-gold-dark hover:text-maroon"
       >
         + Add stat
+      </button>
+    </div>
+  );
+}
+
+function BooleanInput({ value, onChange }: { value?: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!value)}
+      className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+        value ? "bg-maroon" : "bg-neutral-300"
+      }`}
+      aria-pressed={!!value}
+    >
+      <span
+        className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+          value ? "translate-x-6" : "translate-x-1"
+        }`}
+      />
+    </button>
+  );
+}
+
+function AddonListInput({
+  value,
+  onChange,
+}: {
+  value?: { name: string; price: number }[];
+  onChange: (v: { name: string; price: number }[]) => void;
+}) {
+  const items = Array.isArray(value) ? value : [];
+  return (
+    <div className="space-y-2">
+      {items.map((a, i) => (
+        <div key={i} className="flex gap-2">
+          <input
+            placeholder="Add-on name"
+            className="flex-1 rounded-xl border border-maroon/20 bg-cream/40 px-3 py-2 text-sm outline-none focus:border-gold"
+            value={a.name}
+            onChange={(e) => {
+              const next = [...items];
+              next[i] = { ...next[i], name: e.target.value };
+              onChange(next);
+            }}
+          />
+          <input
+            type="number"
+            placeholder="₹"
+            className="w-28 rounded-xl border border-maroon/20 bg-cream/40 px-3 py-2 text-sm outline-none focus:border-gold"
+            value={a.price ?? ""}
+            onChange={(e) => {
+              const next = [...items];
+              next[i] = { ...next[i], price: Number(e.target.value) };
+              onChange(next);
+            }}
+          />
+          <button onClick={() => onChange(items.filter((_, j) => j !== i))} className="px-2 text-red-600">
+            ✕
+          </button>
+        </div>
+      ))}
+      <button
+        onClick={() => onChange([...items, { name: "", price: 0 }])}
+        className="text-sm font-medium text-gold-dark hover:text-maroon"
+      >
+        + Add add-on
+      </button>
+    </div>
+  );
+}
+
+function FaqListInput({
+  value,
+  onChange,
+}: {
+  value?: { question: string; answer: string }[];
+  onChange: (v: { question: string; answer: string }[]) => void;
+}) {
+  const items = Array.isArray(value) ? value : [];
+  return (
+    <div className="space-y-3">
+      {items.map((f, i) => (
+        <div key={i} className="rounded-xl border border-maroon/15 p-3">
+          <input
+            placeholder="Question"
+            className="w-full rounded-lg border border-maroon/20 bg-cream/40 px-3 py-2 text-sm outline-none focus:border-gold"
+            value={f.question}
+            onChange={(e) => {
+              const next = [...items];
+              next[i] = { ...next[i], question: e.target.value };
+              onChange(next);
+            }}
+          />
+          <textarea
+            placeholder="Answer"
+            rows={2}
+            className="mt-2 w-full rounded-lg border border-maroon/20 bg-cream/40 px-3 py-2 text-sm outline-none focus:border-gold"
+            value={f.answer}
+            onChange={(e) => {
+              const next = [...items];
+              next[i] = { ...next[i], answer: e.target.value };
+              onChange(next);
+            }}
+          />
+          <button
+            onClick={() => onChange(items.filter((_, j) => j !== i))}
+            className="mt-2 text-xs text-red-600 hover:underline"
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+      <button
+        onClick={() => onChange([...items, { question: "", answer: "" }])}
+        className="text-sm font-medium text-gold-dark hover:text-maroon"
+      >
+        + Add FAQ
       </button>
     </div>
   );

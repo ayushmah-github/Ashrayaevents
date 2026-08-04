@@ -3,6 +3,8 @@
  * Drives both the API (allow-listed tables) and the auto-generated admin forms.
  * ========================================================================== */
 
+import { CATEGORY_NAMES } from "@/lib/store-data";
+
 export type FieldType =
   | "text"
   | "textarea"
@@ -14,7 +16,10 @@ export type FieldType =
   | "image"
   | "list"
   | "imagelist"
-  | "statlist";
+  | "statlist"
+  | "boolean"
+  | "addonlist"
+  | "faqlist";
 
 export type Field = {
   name: string;
@@ -113,6 +118,59 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "author", label: "Author", type: "text" },
       { name: "published_at", label: "Published date", type: "date" },
       { name: "body", label: "Body (Markdown)", type: "markdown", help: "Tip: use the AI Blog Assistant at /tools/blog-assistant." },
+    ],
+  },
+  decorations: {
+    table: "decorations",
+    label: "Decorations",
+    singular: "Decoration",
+    titleField: "title",
+    subtitleField: "category",
+    imageField: "images",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "slug", label: "Slug (URL id)", type: "slug" },
+      { name: "category", label: "Category", type: "select", options: CATEGORY_NAMES },
+      { name: "city", label: "City", type: "text" },
+      { name: "area", label: "Area", type: "text" },
+      { name: "price", label: "Price (₹)", type: "number" },
+      { name: "discount", label: "Discount (%)", type: "number" },
+      { name: "theme", label: "Theme", type: "text" },
+      { name: "description", label: "Description", type: "textarea" },
+      { name: "images", label: "Gallery images", type: "imagelist" },
+      { name: "included_items", label: "Included items", type: "list" },
+      { name: "addons", label: "Optional add-ons", type: "addonlist" },
+      { name: "faqs", label: "FAQs", type: "faqlist" },
+      { name: "rating", label: "Rating (0–5)", type: "number" },
+      { name: "availability", label: "Available for booking", type: "boolean" },
+      { name: "featured", label: "Featured on store home", type: "boolean" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
+  decoration_categories: {
+    table: "decoration_categories",
+    label: "Decoration Categories",
+    singular: "Category",
+    titleField: "name",
+    imageField: "image",
+    fields: [
+      { name: "name", label: "Name", type: "text" },
+      { name: "slug", label: "Slug", type: "slug" },
+      { name: "image", label: "Image", type: "image" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
+  cities: {
+    table: "cities",
+    label: "Cities",
+    singular: "City",
+    titleField: "name",
+    imageField: "image",
+    fields: [
+      { name: "name", label: "Name", type: "text" },
+      { name: "slug", label: "Slug", type: "slug" },
+      { name: "image", label: "Image (optional)", type: "image" },
+      { name: "sort_order", label: "Order", type: "number" },
     ],
   },
   site_settings: {

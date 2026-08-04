@@ -102,6 +102,61 @@ end $$;
 -- (No insert/update/delete policies => writes are only possible with the
 --  service-role key, which the /api/admin routes use server-side.)
 
+-- ---- Decorations store (Module 1) ------------------------------------------
+create table if not exists decoration_categories (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  slug text not null,
+  image text,
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists cities (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  slug text not null,
+  image text,
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists decorations (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text not null unique,
+  category text,                       -- category name/slug
+  city text,                           -- city name
+  area text,
+  price int default 0,
+  discount int default 0,              -- percent off
+  theme text,
+  description text,
+  included_items text[] default '{}',
+  addons jsonb default '[]',           -- [{ "name": text, "price": int }]
+  images text[] default '{}',          -- gallery
+  faqs jsonb default '[]',             -- [{ "question": text, "answer": text }]
+  rating numeric default 0,
+  availability boolean default true,
+  featured boolean default false,
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
+alter table decoration_categories enable row level security;
+alter table cities                enable row level security;
+alter table decorations           enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['decoration_categories','cities','decorations']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

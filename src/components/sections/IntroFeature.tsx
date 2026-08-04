@@ -27,47 +27,42 @@ export default async function IntroFeature() {
   return (
     <section className="bg-cream py-24 sm:py-32">
       <Container size="wide">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-x-10">
-          {/* Heading — top, spanning wide to the right */}
-          <Reveal className="lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:self-start">
-            <p className="eyebrow mb-4 text-gold-dark">Royal elegance</p>
-            <h2 className="font-serif text-4xl leading-tight text-maroon text-balance sm:text-5xl">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* Left — two separate, staggered images */}
+          <div className="grid grid-cols-2 gap-5 sm:gap-6">
+            <Reveal className="relative aspect-[3/4] self-start overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
+              <Image
+                src={img1}
+                alt="An elegant Indian wedding by Ashraya Events"
+                fill
+                sizes="(max-width: 1024px) 45vw, 22vw"
+                className="object-cover"
+              />
+            </Reveal>
+            <Reveal
+              delayIndex={1}
+              className="relative mt-10 aspect-[3/4] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)] sm:mt-16"
+            >
+              <Image
+                src={img2}
+                alt="A destination wedding setup by Ashraya Events"
+                fill
+                sizes="(max-width: 1024px) 45vw, 22vw"
+                className="object-cover"
+              />
+            </Reveal>
+          </div>
+
+          {/* Right — heading + copy */}
+          <Reveal delayIndex={1}>
+            <p className="eyebrow text-gold-dark">Royal elegance</p>
+            <h2 className="mt-5 font-serif text-4xl leading-tight text-maroon text-balance sm:text-5xl">
               {title}
             </h2>
-          </Reveal>
-
-          {/* Image 1 — top-left */}
-          <Reveal className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)] lg:col-span-4 lg:col-start-1 lg:row-start-1">
-            <Image
-              src={img1}
-              alt="An elegant Indian wedding by Ashraya Events"
-              fill
-              sizes="(max-width: 1024px) 100vw, 32vw"
-              className="object-cover"
-            />
-          </Reveal>
-
-          {/* Image 2 — centre, lower */}
-          <Reveal
-            delayIndex={1}
-            className="relative aspect-[3/4] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)] lg:col-span-4 lg:col-start-5 lg:row-start-2 lg:-mt-28"
-          >
-            <Image
-              src={img2}
-              alt="A destination wedding setup by Ashraya Events"
-              fill
-              sizes="(max-width: 1024px) 100vw, 32vw"
-              className="object-cover"
-            />
-          </Reveal>
-
-          {/* Paragraph — narrow, far right, aligned with image 2 */}
-          <Reveal
-            delayIndex={1}
-            className="lg:col-span-4 lg:col-start-9 lg:row-start-2 lg:-mt-28"
-          >
-            <div className="rule-gold mb-6 hidden w-20 lg:block" />
-            <div className="whitespace-pre-line leading-relaxed text-ink-soft">{body}</div>
+            <div className="rule-gold mt-7 w-24" />
+            <div className="mt-7 max-w-xl space-y-4 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
+              {body}
+            </div>
           </Reveal>
         </div>
       </Container>

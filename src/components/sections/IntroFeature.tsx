@@ -27,40 +27,40 @@ export default async function IntroFeature() {
   return (
     <section className="bg-cream py-20 sm:py-28">
       <Container size="wide">
-        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-2">
-          {/* Left — two separated, staggered images */}
-          <div className="order-2 lg:order-1">
-            <Reveal className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          {/* Left — two SEPARATE, side-by-side, staggered images */}
+          <div className="order-2 grid grid-cols-2 gap-4 sm:gap-6 lg:order-1">
+            <Reveal className="relative aspect-[3/4] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
               <Image
                 src={img1}
                 alt="An elegant Indian wedding by Ashraya Events"
                 fill
-                sizes="(max-width: 1024px) 90vw, 40vw"
+                sizes="(max-width: 1024px) 45vw, 22vw"
                 className="object-cover"
               />
             </Reveal>
             <Reveal
               delayIndex={1}
-              className="relative mt-8 aspect-[3/4] w-3/4 overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)] lg:ml-auto lg:-mt-16 lg:mr-4"
+              className="relative mt-12 aspect-[3/4] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)] lg:mt-28"
             >
               <Image
                 src={img2}
                 alt="A destination wedding setup by Ashraya Events"
                 fill
-                sizes="(max-width: 1024px) 70vw, 30vw"
+                sizes="(max-width: 1024px) 45vw, 22vw"
                 className="object-cover"
               />
             </Reveal>
           </div>
 
-          {/* Right — heading + long copy */}
+          {/* Right — heading (top) + long copy (below) */}
           <div className="order-1 flex flex-col lg:order-2">
             <Reveal>
               <h2 className="font-serif text-4xl leading-tight text-maroon text-balance sm:text-5xl">
                 {title}
               </h2>
             </Reveal>
-            <Reveal delayIndex={1} className="mt-8 lg:mt-24">
+            <Reveal delayIndex={1} className="mt-10 lg:mt-20">
               <div className="space-y-4 whitespace-pre-line leading-relaxed text-ink-soft">
                 {body}
               </div>

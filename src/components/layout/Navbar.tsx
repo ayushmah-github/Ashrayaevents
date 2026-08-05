@@ -15,7 +15,6 @@ import Logo from "@/components/layout/Logo";
  */
 export default function Navbar() {
   const [hidden, setHidden] = useState(false);
-  const [atTop, setAtTop] = useState(true);
   const [open, setOpen] = useState(false);
   const lastY = useRef(0);
   const pathname = usePathname();
@@ -23,7 +22,6 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setAtTop(y < 10);
       if (y < 10) setHidden(false);
       else if (y > lastY.current && y > 120) setHidden(true);
       else if (y < lastY.current) setHidden(false);
@@ -39,8 +37,7 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-ink backdrop-blur-md transition-all duration-300 ease-out",
-        atTop && !open ? "bg-white/30" : "bg-white/85 shadow-[0_4px_22px_-14px_rgba(0,0,0,0.35)]",
+        "fixed inset-x-0 top-0 z-50 text-ink transition-transform duration-300 ease-out",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >

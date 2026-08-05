@@ -44,11 +44,11 @@ export default function Navbar() {
         hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between py-4 pl-2 pr-5 sm:pl-4 sm:pr-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
         <Logo className="text-maroon" size="lg" showTagline={false} />
 
         {/* Desktop links */}
-        <ul className="font-nav hidden items-center gap-5 lg:flex">
+        <ul className="font-nav hidden items-center gap-9 lg:flex">
           {navLinks.map((link) => {
             const active =
               link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);

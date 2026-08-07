@@ -1,13 +1,15 @@
 import { site } from "@/lib/site";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
+import { getSiteSettings } from "@/lib/cms/content";
 
 /**
- * "Testimonials" — a warm intro + YouTube testimonial films (Shaandaar-style).
- * Uses site.youtubeVideoIds. [PLACEHOLDER] swap for the client's real videos.
+ * "Testimonials" — a warm intro + YouTube testimonial films.
+ * Video IDs editable in admin → Site Settings → Testimonial YouTube video IDs.
  */
-export default function TestimonialVideos() {
-  const ids = site.youtubeVideoIds.slice(0, 2);
+export default async function TestimonialVideos() {
+  const settings = await getSiteSettings();
+  const ids = (settings.youtubeIds?.length ? settings.youtubeIds : site.youtubeVideoIds).slice(0, 2);
   return (
     <section className="bg-cream py-20 sm:py-28">
       <Container>

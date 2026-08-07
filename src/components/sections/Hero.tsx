@@ -18,8 +18,9 @@ const FALLBACK_SLIDES = [
   "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=2400&q=80&auto=format&fit=crop",
 ];
 
-export default function Hero({ images }: { images?: string[] }) {
+export default function Hero({ images, videoSrc }: { images?: string[]; videoSrc?: string }) {
   const SLIDES = images && images.length ? images : FALLBACK_SLIDES;
+  const heroVideo = videoSrc || site.heroVideoSrc;
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Hero({ images }: { images?: string[] }) {
   }, [SLIDES.length]);
 
   // Muted background video takes over when configured (Shaandaar-style hero).
-  if (site.heroVideoSrc) {
+  if (heroVideo) {
     return (
       <section className="relative h-screen w-full overflow-hidden">
         <video
@@ -39,7 +40,7 @@ export default function Hero({ images }: { images?: string[] }) {
           playsInline
           poster={SLIDES[0]}
         >
-          <source src={site.heroVideoSrc} type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
         </video>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/45 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-maroon-dark/40 to-transparent" />

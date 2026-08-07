@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { site } from "@/lib/site";
-import { portfolio } from "@/lib/content";
+import { getPortfolio } from "@/lib/cms/content";
+import { getSiteSettings } from "@/lib/cms/content";
 
 /**
- * Instagram feed section.
- * - If NEXT_PUBLIC_INSTAGRAM_EMBED_SRC is set (SnapWidget / Behold / Elfsight),
- *   we render that widget in an <iframe>.
- * - Otherwise we show a tasteful placeholder strip linking to the profile.
+ * Instagram feed section. Embed URL editable in admin (Site Settings →
+ * Instagram embed URL); otherwise shows a strip of portfolio photos.
  */
-export default function InstagramStrip() {
-  const embed = site.integrations.instagramEmbedSrc;
+export default async function InstagramStrip() {
+  const [settings, portfolio] = await Promise.all([getSiteSettings(), getPortfolio()]);
+  const embed = settings.instagramEmbed || site.integrations.instagramEmbedSrc;
 
   return (
     <div className="mt-12">

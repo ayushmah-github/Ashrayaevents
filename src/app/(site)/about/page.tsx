@@ -6,7 +6,9 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import StatsBar from "@/components/sections/StatsBar";
 import CTASection from "@/components/sections/CTASection";
-import { values, team } from "@/lib/content";
+import { values } from "@/lib/content";
+import { getTeam } from "@/lib/cms/home";
+import { getSiteSettings } from "@/lib/cms/content";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -14,7 +16,13 @@ export const metadata: Metadata = {
     "Meet Ashraya Events — a wedding & event planning studio crafting warm, elegant, unforgettable celebrations.",
 };
 
-export default function AboutPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AboutPage() {
+  const [team, settings] = await Promise.all([getTeam(), getSiteSettings()]);
+  const aboutImage =
+    settings.aboutImage ||
+    "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop";
   return (
     <>
       <PageHeader
@@ -28,9 +36,8 @@ export default function AboutPage() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
             <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
-              {/* [PLACEHOLDER] founder / studio photo */}
               <Image
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop"
+                src={aboutImage}
                 alt="Ashraya Events at work"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

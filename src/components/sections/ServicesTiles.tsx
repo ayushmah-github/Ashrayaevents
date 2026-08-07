@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { capabilities } from "@/lib/content";
+import { getServiceTiles } from "@/lib/cms/home";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 
-/** "Services We Provide" — grid of image tiles with a dark overlay + title. */
-export default function ServicesTiles() {
+/** "Services We Provide" — image tiles (editable in admin → Home · Service Tiles). */
+export default async function ServicesTiles() {
+  const capabilities = await getServiceTiles();
   return (
     <section className="bg-cream py-20 sm:py-28">
       <Container size="wide">

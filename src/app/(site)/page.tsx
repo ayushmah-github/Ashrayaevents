@@ -14,16 +14,17 @@ import InstagramStrip from "@/components/sections/InstagramStrip";
 import CompanyDetails from "@/components/sections/CompanyDetails";
 import CTASection from "@/components/sections/CTASection";
 import { getSiteSettings } from "@/lib/cms/content";
+import { getInspiration } from "@/lib/cms/home";
 
 // Read fresh content from the admin/database on every request.
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const settings = await getSiteSettings();
+  const [settings, inspirationTabs] = await Promise.all([getSiteSettings(), getInspiration()]);
   return (
     <>
       {/* 1 — Hero (full-screen video / photo) */}
-      <Hero images={settings.heroImages} />
+      <Hero images={settings.heroImages} videoSrc={settings.heroVideo} />
 
       {/* 2 — Royal elegance intro */}
       <IntroFeature />
@@ -47,7 +48,7 @@ export default async function HomePage() {
       <WeddingStories />
 
       {/* 9 — Inspiration for wedding frames */}
-      <InspirationGallery />
+      <InspirationGallery inspirationTabs={inspirationTabs} />
 
       {/* 10 — Journey + video testimonials */}
       <TestimonialVideos />

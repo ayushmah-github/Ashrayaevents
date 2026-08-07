@@ -157,6 +157,57 @@ begin
   end loop;
 end $$;
 
+-- ---- Home-page managed sections (photos editable in admin) ------------------
+create table if not exists home_categories (
+  id uuid primary key default gen_random_uuid(),
+  title text not null, description text, image text, tint text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists service_tiles (
+  id uuid primary key default gen_random_uuid(),
+  title text not null, image text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists inspiration_frames (
+  id uuid primary key default gen_random_uuid(),
+  title text not null, tab text, image text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists team_members (
+  id uuid primary key default gen_random_uuid(),
+  name text not null, role text, bio text, image text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists awards (
+  id uuid primary key default gen_random_uuid(),
+  name text not null, image text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+alter table home_categories    enable row level security;
+alter table service_tiles       enable row level security;
+alter table inspiration_frames  enable row level security;
+alter table team_members        enable row level security;
+alter table awards              enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['home_categories','service_tiles','inspiration_frames','team_members','awards']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
+-- More home/about images + media on the site_settings singleton (idempotent):
+alter table site_settings add column if not exists collage_images  text[] default '{}';
+alter table site_settings add column if not exists about_image     text;
+alter table site_settings add column if not exists video_poster    text;
+alter table site_settings add column if not exists hero_video      text;
+alter table site_settings add column if not exists youtube_ids     text[] default '{}';
+alter table site_settings add column if not exists instagram_embed text;
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

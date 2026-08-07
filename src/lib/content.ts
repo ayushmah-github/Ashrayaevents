@@ -246,6 +246,16 @@ export const collageImages: string[] = [
   "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=70&auto=format&fit=crop",
 ];
 
+export type Award = { name: string; image?: string };
+// [PLACEHOLDER] press / award mentions shown in the "As seen in" strip.
+export const awards: Award[] = [
+  { name: "WeddingWire India" },
+  { name: "WedMeGood" },
+  { name: "WeddingSutra" },
+  { name: "The Knot" },
+  { name: "Featured Weddings" },
+];
+
 export type WeddingCategory = {
   title: string;
   description: string;

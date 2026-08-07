@@ -3,14 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { inspirationTabs } from "@/lib/content";
+import type { InspirationTab } from "@/lib/content";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 
-/** "Inspiration for Wedding Frames" — tabbed, captioned décor gallery. */
-export default function InspirationGallery() {
+/** "Inspiration for Wedding Frames" — tabbed gallery (tabs fed from the admin). */
+export default function InspirationGallery({ inspirationTabs }: { inspirationTabs: InspirationTab[] }) {
   const [active, setActive] = useState(0);
-  const frames = inspirationTabs[active].frames;
+  const frames = inspirationTabs[active]?.frames ?? [];
 
   return (
     <section className="bg-cream py-20 sm:py-28">

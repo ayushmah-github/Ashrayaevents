@@ -1,11 +1,17 @@
 import Button from "@/components/ui/Button";
+import { getSiteSettings } from "@/lib/cms/content";
+
+const DEFAULT_POSTER =
+  "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=2000&q=70&auto=format&fit=crop";
 
 /**
- * Full-bleed silent background video with an overlay message.
- * Drop a muted showreel at /public/video/showreel.mp4 (and a poster at
- * /public/video/poster.jpg). Until then, the poster image fills the section.
+ * Full-bleed silent background video with an overlay message. Poster + video
+ * editable in admin (Site Settings → Film band poster / Hero video URL).
  */
-export default function VideoShowcase() {
+export default async function VideoShowcase() {
+  const settings = await getSiteSettings();
+  const poster = settings.videoPoster || DEFAULT_POSTER;
+  const videoSrc = settings.heroVideo || "/video/showreel.mp4";
   return (
     <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
       <video
@@ -14,10 +20,9 @@ export default function VideoShowcase() {
         muted
         loop
         playsInline
-        // [PLACEHOLDER] add /public/video/showreel.mp4 + poster.jpg
-        poster="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=2000&q=70&auto=format&fit=crop"
+        poster={poster}
       >
-        <source src="/video/showreel.mp4" type="video/mp4" />
+        <source src={videoSrc} type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-maroon-dark/60" />
 

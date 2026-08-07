@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { weddingCategories } from "@/lib/content";
+import { getHomeCategories } from "@/lib/cms/home";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 
-/** "Wedding Categories" — pastel cards with a title, blurb and rounded image. */
-export default function WeddingCategories() {
+/** "Wedding Categories" — pastel cards (editable in admin → Home · Wedding Categories). */
+export default async function WeddingCategories() {
+  const weddingCategories = await getHomeCategories();
   return (
     <section className="bg-cream py-20 sm:py-28">
       <Container size="wide">

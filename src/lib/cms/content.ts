@@ -38,6 +38,12 @@ export type SiteSettings = {
   introBody?: string;
   introImage1?: string;
   introImage2?: string;
+  collageImages?: string[];
+  aboutImage?: string;
+  videoPoster?: string;
+  heroVideo?: string;
+  youtubeIds?: string[];
+  instagramEmbed?: string;
 };
 
 // [PLACEHOLDER] blog posts shown until the client publishes real ones.
@@ -161,6 +167,12 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     introBody: row?.intro_body || undefined,
     introImage1: row?.intro_image_1 || undefined,
     introImage2: row?.intro_image_2 || undefined,
+    collageImages: row?.collage_images?.length ? row.collage_images : undefined,
+    aboutImage: row?.about_image || undefined,
+    videoPoster: row?.video_poster || undefined,
+    heroVideo: row?.hero_video || undefined,
+    youtubeIds: row?.youtube_ids?.length ? row.youtube_ids : undefined,
+    instagramEmbed: row?.instagram_embed || undefined,
   };
 });
 

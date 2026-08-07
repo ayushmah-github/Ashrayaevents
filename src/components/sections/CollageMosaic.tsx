@@ -1,11 +1,17 @@
 import Image from "next/image";
-import { collageImages } from "@/lib/content";
+import { collageImages as fallback } from "@/lib/content";
+import { getSiteSettings } from "@/lib/cms/content";
 
 /**
  * Full-width photo mosaic with a centered "Celebrating Love, the Ashraya Way"
- * tile — echoing Shaandaar's collage band.
+ * tile. Photos editable in the admin (Site Settings → Home collage photos).
  */
-export default function CollageMosaic() {
+export default async function CollageMosaic() {
+  const settings = await getSiteSettings();
+  const collageImages =
+    settings.collageImages && settings.collageImages.length >= 8
+      ? settings.collageImages
+      : fallback;
   return (
     <section className="bg-cream">
       <div className="grid grid-cols-2 sm:grid-cols-4">

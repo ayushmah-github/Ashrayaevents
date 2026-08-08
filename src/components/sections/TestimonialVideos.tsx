@@ -2,14 +2,18 @@ import { site } from "@/lib/site";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import { getSiteSettings } from "@/lib/cms/content";
+import { youtubeId } from "@/lib/utils";
 
 /**
  * "Testimonials" — a warm intro + YouTube testimonial films.
- * Video IDs editable in admin → Site Settings → Testimonial YouTube video IDs.
+ * Paste full YouTube links in admin → Site Settings → Testimonial YouTube videos.
  */
 export default async function TestimonialVideos() {
   const settings = await getSiteSettings();
-  const ids = (settings.youtubeIds?.length ? settings.youtubeIds : site.youtubeVideoIds).slice(0, 2);
+  const ids = (settings.youtubeIds?.length ? settings.youtubeIds : site.youtubeVideoIds)
+    .map((v) => youtubeId(v))
+    .filter(Boolean)
+    .slice(0, 2);
   return (
     <section className="bg-cream py-20 sm:py-28">
       <Container>

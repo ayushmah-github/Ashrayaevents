@@ -1,19 +1,36 @@
 import Image from "next/image";
 import { site } from "@/lib/site";
-import { getPortfolio } from "@/lib/cms/content";
-import { getSiteSettings } from "@/lib/cms/content";
+import { getPortfolio, getSiteSettings } from "@/lib/cms/content";
+import { instagramEmbedUrl } from "@/lib/utils";
 
 /**
- * Instagram feed section. Embed URL editable in admin (Site Settings →
- * Instagram embed URL); otherwise shows a strip of portfolio photos.
+ * Instagram feed section. Paste post/reel links in admin (Site Settings →
+ * Instagram posts) to embed them; or a widget URL; otherwise portfolio photos.
  */
 export default async function InstagramStrip() {
   const [settings, portfolio] = await Promise.all([getSiteSettings(), getPortfolio()]);
+  const posts = settings.instagramPosts ?? [];
   const embed = settings.instagramEmbed || site.integrations.instagramEmbedSrc;
 
   return (
     <div className="mt-12">
-      {embed ? (
+      {posts.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {posts.slice(0, 8).map((url) => (
+            <div
+              key={url}
+              className="overflow-hidden rounded-2xl bg-white shadow-[0_10px_40px_-30px_rgba(74,16,32,0.4)]"
+            >
+              <iframe
+                src={instagramEmbedUrl(url)}
+                title="Instagram post"
+                className="h-[500px] w-full border-0"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      ) : embed ? (
         <div className="overflow-hidden rounded-[var(--radius-xl2)]">
           {/* Embed widget from SnapWidget/Behold/Elfsight (see .env.example) */}
           <iframe

@@ -44,6 +44,7 @@ export type SiteSettings = {
   heroVideo?: string;
   youtubeIds?: string[];
   instagramEmbed?: string;
+  instagramPosts?: string[];
 };
 
 // [PLACEHOLDER] blog posts shown until the client publishes real ones.
@@ -173,6 +174,7 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     heroVideo: row?.hero_video || undefined,
     youtubeIds: row?.youtube_ids?.length ? row.youtube_ids : undefined,
     instagramEmbed: row?.instagram_embed || undefined,
+    instagramPosts: row?.instagram_posts?.length ? row.instagram_posts : undefined,
   };
 });
 

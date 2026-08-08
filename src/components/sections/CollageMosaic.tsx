@@ -8,10 +8,27 @@ import { getSiteSettings } from "@/lib/cms/content";
  */
 export default async function CollageMosaic() {
   const settings = await getSiteSettings();
-  const collageImages =
-    settings.collageImages && settings.collageImages.length >= 8
-      ? settings.collageImages
-      : fallback;
+  const uploaded = settings.collageImages ?? [];
+
+  // If a single image is uploaded, treat it as a ready-made collage banner.
+  if (uploaded.length === 1) {
+    return (
+      <section className="bg-cream">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={uploaded[0]}
+            alt="Celebrating love, the Ashraya way"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+      </section>
+    );
+  }
+
+  const collageImages = uploaded.length >= 8 ? uploaded : fallback;
   return (
     <section className="bg-cream">
       <div className="grid grid-cols-2 sm:grid-cols-4">

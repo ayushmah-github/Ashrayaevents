@@ -207,6 +207,7 @@ alter table site_settings add column if not exists video_poster    text;
 alter table site_settings add column if not exists hero_video      text;
 alter table site_settings add column if not exists youtube_ids     text[] default '{}';
 alter table site_settings add column if not exists instagram_embed text;
+alter table site_settings add column if not exists instagram_posts text[] default '{}';
 
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)

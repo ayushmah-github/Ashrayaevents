@@ -1,8 +1,9 @@
-import { processSteps } from "@/lib/content";
+import { getProcessSteps } from "@/lib/cms/home";
 import Reveal from "@/components/ui/Reveal";
 
-/** "How we work" 4-step timeline. */
-export default function ProcessTimeline() {
+/** "How we work" step timeline (editable in admin → How It Works · Steps). */
+export default async function ProcessTimeline() {
+  const processSteps = await getProcessSteps();
   return (
     <div className="mt-16 grid gap-8 md:grid-cols-4">
       {processSteps.map((step, i) => (

@@ -220,7 +220,7 @@ export default function Estimator({
                     sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-maroon-dark/70 to-transparent p-3 text-cream opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 to-transparent p-3 text-cream opacity-0 transition-opacity group-hover:opacity-100">
                     <span className="text-xs">{item.title}</span>
                   </div>
                 </Link>

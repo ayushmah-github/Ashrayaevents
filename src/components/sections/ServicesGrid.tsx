@@ -23,7 +23,7 @@ export default async function ServicesGrid({ limit }: { limit?: number }) {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             </div>
             <div className="p-6">
               <h3 className="text-2xl text-maroon">{service.title}</h3>

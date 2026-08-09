@@ -241,6 +241,19 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
+  process_steps: {
+    table: "process_steps",
+    label: "How It Works · Steps",
+    singular: "Step",
+    titleField: "title",
+    subtitleField: "step",
+    fields: [
+      { name: "step", label: "Step number (e.g. 01)", type: "text" },
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "textarea" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
   site_settings: {
     table: "site_settings",
     label: "Home / Site Settings",

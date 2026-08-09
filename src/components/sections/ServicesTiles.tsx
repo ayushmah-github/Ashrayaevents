@@ -22,7 +22,7 @@ export default async function ServicesTiles() {
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/80 via-maroon-dark/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center p-4">
                   <h3 className="text-center font-serif text-xl leading-tight text-cream sm:text-2xl">
                     {c.title}

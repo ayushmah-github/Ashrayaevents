@@ -56,7 +56,7 @@ export default function InspirationGallery({ inspirationTabs }: { inspirationTab
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-maroon-dark/80 to-transparent p-4">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                   <span className="rounded-md bg-maroon-dark/60 px-3 py-1 text-sm font-medium text-cream">
                     {f.title}
                   </span>

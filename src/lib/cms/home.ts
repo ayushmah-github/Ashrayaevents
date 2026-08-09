@@ -9,10 +9,12 @@ import {
   inspirationTabs as fbInspiration,
   team as fbTeam,
   awards as fbAwards,
+  processSteps as fbSteps,
   type WeddingCategory,
   type Capability,
   type InspirationTab,
   type Award,
+  type ProcessStep,
 } from "@/lib/content";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -59,6 +61,16 @@ export const getAwards = cache(async (): Promise<Award[]> => {
   const data = await rows("awards");
   if (!data || !data.length) return fbAwards;
   return data.map((r) => ({ name: r.name, image: r.image ?? undefined }));
+});
+
+export const getProcessSteps = cache(async (): Promise<ProcessStep[]> => {
+  const data = await rows("process_steps");
+  if (!data || !data.length) return fbSteps;
+  return data.map((r, i) => ({
+    step: r.step || String(i + 1).padStart(2, "0"),
+    title: r.title,
+    description: r.description ?? "",
+  }));
 });
 
 /** Inspiration frames grouped into tabs (Haldi/Mehndi/…). */

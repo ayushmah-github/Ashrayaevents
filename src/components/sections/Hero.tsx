@@ -43,7 +43,7 @@ export default function Hero({ images, videoSrc }: { images?: string[]; videoSrc
           <source src={heroVideo} type="video/mp4" />
         </video>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/45 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-maroon-dark/40 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/40 to-transparent" />
       </section>
     );
   }
@@ -72,7 +72,7 @@ export default function Hero({ images, videoSrc }: { images?: string[]; videoSrc
 
       {/* Soft scrims only — keep the photo bright and dominant */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/45 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-maroon-dark/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/40 to-transparent" />
 
       {/* Slide dots */}
       <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 gap-2">

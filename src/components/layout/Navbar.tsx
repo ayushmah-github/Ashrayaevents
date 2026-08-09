@@ -14,12 +14,13 @@ import Logo from "@/components/layout/Logo";
  * neutral dark bar once scrolled so the white text stays readable.
  */
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
+  // Only visible at the very top of the page; hides as soon as you scroll.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setHidden(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -27,15 +28,14 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [pathname]);
 
-  const solid = scrolled || open;
-
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 text-cream transition-all duration-300 ease-out",
-        solid
-          ? "bg-ink/90 backdrop-blur-md shadow-[0_4px_22px_-14px_rgba(0,0,0,0.6)]"
+        "fixed inset-x-0 top-0 z-50 text-cream transition-transform duration-300 ease-out",
+        open
+          ? "bg-ink/95 backdrop-blur-md"
           : "bg-gradient-to-b from-black/50 via-black/15 to-transparent",
+        hidden && !open ? "-translate-y-full" : "translate-y-0",
       )}
     >
       <nav className="flex w-full items-center justify-between px-6 py-4 sm:px-10 lg:px-14">

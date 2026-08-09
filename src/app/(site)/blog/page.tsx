@@ -6,6 +6,7 @@ import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import CTASection from "@/components/sections/CTASection";
 import { getPosts } from "@/lib/cms/content";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -25,14 +26,15 @@ function formatDate(d: string) {
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const [posts, banner] = await Promise.all([getPosts(), getPageBanner("Blogs")]);
 
   return (
     <>
       <PageHeader
         eyebrow="Journal"
-        title="The Ashraya Blog"
-        intro="Planning tips, trends and stories to inspire your celebration."
+        title={banner?.title || "The Ashraya Blog"}
+        intro={banner?.subtitle || "Planning tips, trends and stories to inspire your celebration."}
+        image={banner?.image}
       />
 
       <Section tone="cream">

@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import ContactForm from "@/components/contact/ContactForm";
 import { site } from "@/lib/site";
 import { whatsappLink } from "@/lib/utils";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -11,13 +12,17 @@ export const metadata: Metadata = {
     "Get in touch with Ashraya Events to plan your wedding, corporate event or private celebration.",
 };
 
-export default function ContactPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ContactPage() {
+  const banner = await getPageBanner("Contact");
   return (
     <>
       <PageHeader
         eyebrow="Say hello"
-        title="Let's talk"
-        intro="Tell us about your celebration and we'll be in touch to plan something beautiful."
+        title={banner?.title || "Let's talk"}
+        intro={banner?.subtitle || "Tell us about your celebration and we'll be in touch to plan something beautiful."}
+        image={banner?.image}
       />
 
       <Section tone="cream">

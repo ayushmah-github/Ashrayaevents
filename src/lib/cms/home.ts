@@ -63,6 +63,25 @@ export const getAwards = cache(async (): Promise<Award[]> => {
   return data.map((r) => ({ name: r.name, image: r.image ?? undefined }));
 });
 
+export type PageBanner = { image?: string; title?: string; subtitle?: string };
+/** Per-page banner (top header image + optional title/subtitle override). */
+export const getPageBanner = cache(async (page: string): Promise<PageBanner | null> => {
+  if (!supabasePublic) return null;
+  const { data } = await supabasePublic
+    .from("page_banners")
+    .select("*")
+    .eq("page", page)
+    .order("sort_order", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (!data) return null;
+  return {
+    image: data.image || undefined,
+    title: data.title || undefined,
+    subtitle: data.subtitle || undefined,
+  };
+});
+
 export const getProcessSteps = cache(async (): Promise<ProcessStep[]> => {
   const data = await rows("process_steps");
   if (!data || !data.length) return fbSteps;

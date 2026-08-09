@@ -5,6 +5,7 @@ import Reveal from "@/components/ui/Reveal";
 import Stars from "@/components/shared/Stars";
 import CTASection from "@/components/sections/CTASection";
 import { getTestimonials } from "@/lib/cms/content";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const metadata: Metadata = {
   title: "Testimonials",
@@ -15,13 +16,17 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function TestimonialsPage() {
-  const testimonials = await getTestimonials();
+  const [testimonials, banner] = await Promise.all([
+    getTestimonials(),
+    getPageBanner("Testimonials"),
+  ]);
   return (
     <>
       <PageHeader
         eyebrow="Kind words"
-        title="Testimonials"
-        intro="The trust of our couples and clients means everything to us. Here's what they had to say."
+        title={banner?.title || "Testimonials"}
+        intro={banner?.subtitle || "The trust of our couples and clients means everything to us. Here's what they had to say."}
+        image={banner?.image}
       />
 
       <Section tone="cream">

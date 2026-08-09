@@ -188,6 +188,11 @@ create table if not exists process_steps (
   step text, title text not null, description text, image text,
   sort_order int default 0, created_at timestamptz default now()
 );
+create table if not exists page_banners (
+  id uuid primary key default gen_random_uuid(),
+  page text not null, image text, title text, subtitle text,
+  sort_order int default 0, created_at timestamptz default now()
+);
 
 alter table home_categories    enable row level security;
 alter table service_tiles       enable row level security;
@@ -195,11 +200,12 @@ alter table inspiration_frames  enable row level security;
 alter table team_members        enable row level security;
 alter table awards              enable row level security;
 alter table process_steps       enable row level security;
+alter table page_banners        enable row level security;
 
 do $$
 declare t text;
 begin
-  foreach t in array array['home_categories','service_tiles','inspiration_frames','team_members','awards','process_steps']
+  foreach t in array array['home_categories','service_tiles','inspiration_frames','team_members','awards','process_steps','page_banners']
   loop
     execute format('drop policy if exists "public read %1$s" on %1$I;', t);
     execute format('create policy "public read %1$s" on %1$I for select using (true);', t);

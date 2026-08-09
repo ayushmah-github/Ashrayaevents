@@ -6,6 +6,7 @@ import PortfolioGallery from "@/components/portfolio/PortfolioGallery";
 import YouTubeFilms from "@/components/sections/YouTubeFilms";
 import CTASection from "@/components/sections/CTASection";
 import { getPortfolio } from "@/lib/cms/content";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -16,13 +17,14 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function PortfolioPage() {
-  const portfolio = await getPortfolio();
+  const [portfolio, banner] = await Promise.all([getPortfolio(), getPageBanner("Our Work")]);
   return (
     <>
       <PageHeader
         eyebrow="Our work"
-        title="Portfolio"
-        intro="A curated look at the celebrations we've designed and delivered. Filter by event type and tap any image to view."
+        title={banner?.title || "Portfolio"}
+        intro={banner?.subtitle || "A curated look at the celebrations we've designed and delivered. Filter by event type and tap any image to view."}
+        image={banner?.image}
       />
 
       <Section tone="cream">

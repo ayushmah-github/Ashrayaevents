@@ -7,7 +7,7 @@ import Reveal from "@/components/ui/Reveal";
 import StatsBar from "@/components/sections/StatsBar";
 import CTASection from "@/components/sections/CTASection";
 import { values } from "@/lib/content";
-import { getTeam } from "@/lib/cms/home";
+import { getTeam, getPageBanner } from "@/lib/cms/home";
 import { getSiteSettings } from "@/lib/cms/content";
 
 export const metadata: Metadata = {
@@ -19,7 +19,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
-  const [team, settings] = await Promise.all([getTeam(), getSiteSettings()]);
+  const [team, settings, banner] = await Promise.all([
+    getTeam(),
+    getSiteSettings(),
+    getPageBanner("About"),
+  ]);
   const aboutImage =
     settings.aboutImage ||
     "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop";
@@ -27,8 +31,9 @@ export default async function AboutPage() {
     <>
       <PageHeader
         eyebrow="Our story"
-        title="About Ashraya Events"
-        intro="Planners at heart, storytellers by craft — here to make your celebration effortless and unforgettable."
+        title={banner?.title || "About Ashraya Events"}
+        intro={banner?.subtitle || "Planners at heart, storytellers by craft — here to make your celebration effortless and unforgettable."}
+        image={banner?.image}
       />
 
       {/* Story */}

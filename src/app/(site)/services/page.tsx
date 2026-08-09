@@ -8,6 +8,7 @@ import Reveal from "@/components/ui/Reveal";
 import ProcessTimeline from "@/components/sections/ProcessTimeline";
 import CTASection from "@/components/sections/CTASection";
 import { getServices } from "@/lib/cms/content";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -18,13 +19,14 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const [services, banner] = await Promise.all([getServices(), getPageBanner("Services")]);
   return (
     <>
       <PageHeader
         eyebrow="What we do"
-        title="Our Services"
-        intro="Full-service planning and design for every kind of celebration — tailored entirely to you."
+        title={banner?.title || "Our Services"}
+        intro={banner?.subtitle || "Full-service planning and design for every kind of celebration — tailored entirely to you."}
+        image={banner?.image}
       />
 
       {/* Alternating service rows, each anchored for footer/homepage deep links */}

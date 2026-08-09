@@ -241,6 +241,26 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
+  page_banners: {
+    table: "page_banners",
+    label: "Page Banners",
+    singular: "Page banner",
+    titleField: "page",
+    subtitleField: "title",
+    imageField: "image",
+    fields: [
+      {
+        name: "page",
+        label: "Page",
+        type: "select",
+        options: ["About", "How It Works", "Our Work", "Blogs", "Contact", "Services", "Decorations", "Testimonials", "Estimate"],
+      },
+      { name: "image", label: "Banner image", type: "image" },
+      { name: "title", label: "Title (optional override)", type: "text" },
+      { name: "subtitle", label: "Subtitle (optional override)", type: "text" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
   process_steps: {
     table: "process_steps",
     label: "How It Works · Steps",

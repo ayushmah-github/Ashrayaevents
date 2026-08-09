@@ -5,6 +5,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import Section from "@/components/ui/Section";
 import DecorationsBrowser from "@/components/store/DecorationsBrowser";
 import { getDecorations, getDecorationCategories, getCities } from "@/lib/cms/store";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const dynamic = "force-dynamic";
 
@@ -20,18 +21,20 @@ export default async function DecorationsPage({
   searchParams: Promise<{ category?: string; city?: string }>;
 }) {
   const { category = "", city = "" } = await searchParams;
-  const [decorations, categories, cities] = await Promise.all([
+  const [decorations, categories, cities, banner] = await Promise.all([
     getDecorations(),
     getDecorationCategories(),
     getCities(),
+    getPageBanner("Decorations"),
   ]);
 
   return (
     <>
       <PageHeader
         eyebrow="Decorations store"
-        title="Book a decoration"
-        intro="Beautiful, ready-to-book décor for every occasion — search by city, occasion and budget."
+        title={banner?.title || "Book a decoration"}
+        intro={banner?.subtitle || "Beautiful, ready-to-book décor for every occasion — search by city, occasion and budget."}
+        image={banner?.image}
       />
 
       {/* Category strip */}

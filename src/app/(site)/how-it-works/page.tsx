@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProcessTimeline from "@/components/sections/ProcessTimeline";
 import CTASection from "@/components/sections/CTASection";
+import { getPageBanner } from "@/lib/cms/home";
 
 export const dynamic = "force-dynamic";
 
@@ -13,13 +14,15 @@ export const metadata: Metadata = {
     "How Ashraya Events plans your celebration — from first enquiry to flawless execution.",
 };
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const banner = await getPageBanner("How It Works");
   return (
     <>
       <PageHeader
         eyebrow="Our process"
-        title="How It Works"
-        intro="A calm, transparent journey — from your first hello to the last farewell — so you stay stress-free while we handle every detail."
+        title={banner?.title || "How It Works"}
+        intro={banner?.subtitle || "A calm, transparent journey — from your first hello to the last farewell — so you stay stress-free while we handle every detail."}
+        image={banner?.image}
       />
 
       <Section tone="cream">

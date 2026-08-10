@@ -209,7 +209,7 @@ export const RESOURCES: Record<string, Resource> = {
     imageField: "image",
     fields: [
       { name: "title", label: "Caption", type: "text" },
-      { name: "tab", label: "Tab", type: "select", options: ["Haldi", "Mehndi", "Sangeet", "Wedding", "Reception"] },
+      { name: "tab", label: "Tab", type: "select", options: ["Haldi", "Mehndi", "Festivities", "Wedding", "Reception"] },
       { name: "image", label: "Image", type: "image" },
       { name: "sort_order", label: "Order", type: "number" },
     ],

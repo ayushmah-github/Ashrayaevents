@@ -160,7 +160,7 @@ export const portfolio: PortfolioItem[] = [
   { id: "p4", title: "Golden Sixty", category: "Birthday", location: "Delhi", image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=900&q=70&auto=format&fit=crop" },
   { id: "p5", title: "Marigold Mandap", category: "Décor", location: "Jaipur", image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=70&auto=format&fit=crop" },
   { id: "p6", title: "Riya & Kabir", category: "Wedding", location: "Jaipur", image: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=70&auto=format&fit=crop" },
-  { id: "p7", title: "Palace Sangeet", category: "Destination", location: "Jodhpur", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=900&q=70&auto=format&fit=crop" },
+  { id: "p7", title: "Palace Festivities", category: "Destination", location: "Jodhpur", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=900&q=70&auto=format&fit=crop" },
   { id: "p8", title: "Product Launch", category: "Corporate", location: "Bengaluru", image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&q=70&auto=format&fit=crop" },
   { id: "p9", title: "Little One's First", category: "Birthday", location: "Pune", image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=70&auto=format&fit=crop" },
   { id: "p10", title: "Floral Reception", category: "Décor", location: "Hyderabad", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=900&q=70&auto=format&fit=crop" },
@@ -314,7 +314,7 @@ export const inspirationTabs: InspirationTab[] = [
     ],
   },
   {
-    label: "Sangeet",
+    label: "Festivities",
     frames: [
       { title: "Grand Stage Design", image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=70&auto=format&fit=crop" },
       { title: "Lighting & Ambiance", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=70&auto=format&fit=crop" },

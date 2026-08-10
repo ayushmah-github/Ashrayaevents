@@ -6,8 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { InspirationTab } from "@/lib/content";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { cn } from "@/lib/utils";
 
-/** "Inspiration for Wedding Frames" — tabbed gallery (tabs fed from the admin). */
+// Bento pattern (per row of 4 columns): big top-left, then a wide bottom-centre.
+const SPANS = ["sm:col-span-2", "", "", "", "sm:col-span-2", ""];
+
+/** "Inspiration for Wedding Frames" — tabbed bento gallery (tabs from the admin). */
 export default function InspirationGallery({ inspirationTabs }: { inspirationTabs: InspirationTab[] }) {
   const [active, setActive] = useState(0);
   const frames = inspirationTabs[active]?.frames ?? [];
@@ -45,22 +49,27 @@ export default function InspirationGallery({ inspirationTabs }: { inspirationTab
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.35 }}
-            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-10 grid grid-cols-2 gap-3 sm:auto-rows-[15rem] sm:grid-cols-4 sm:gap-4 lg:auto-rows-[17rem]"
           >
-            {frames.map((f) => (
-              <div key={f.title} className="group relative aspect-[4/3] overflow-hidden rounded-2xl">
+            {frames.map((f, i) => (
+              <div
+                key={`${f.title}-${i}`}
+                className={cn(
+                  "group relative h-52 overflow-hidden rounded-2xl sm:h-auto",
+                  SPANS[i % SPANS.length],
+                )}
+              >
                 <Image
                   src={f.image}
                   alt={f.title}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                  <span className="rounded-md bg-maroon-dark/60 px-3 py-1 text-sm font-medium text-cream">
-                    {f.title}
-                  </span>
-                </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+                <span className="absolute bottom-3 left-3 rounded-md bg-black/70 px-3 py-1.5 text-xs font-medium text-white sm:text-sm">
+                  {f.title}
+                </span>
               </div>
             ))}
           </motion.div>

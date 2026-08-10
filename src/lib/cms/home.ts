@@ -96,7 +96,7 @@ export const getProcessSteps = cache(async (): Promise<ProcessStep[]> => {
 export const getInspiration = cache(async (): Promise<InspirationTab[]> => {
   const data = await rows("inspiration_frames");
   if (!data || !data.length) return fbInspiration;
-  const order = ["Haldi", "Mehndi", "Sangeet", "Wedding", "Reception"];
+  const order = ["Haldi", "Mehndi", "Festivities", "Wedding", "Reception"];
   const byTab = new Map<string, { title: string; image: string }[]>();
   for (const r of data) {
     const tab = r.tab || "Wedding";

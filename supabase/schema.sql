@@ -214,6 +214,7 @@ end $$;
 
 -- More home/about images + media on the site_settings singleton (idempotent):
 alter table site_settings add column if not exists collage_images  text[] default '{}';
+alter table site_settings add column if not exists collage_image   text;
 alter table site_settings add column if not exists about_image     text;
 alter table site_settings add column if not exists video_poster    text;
 alter table site_settings add column if not exists hero_video      text;

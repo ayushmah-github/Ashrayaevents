@@ -39,6 +39,7 @@ export type SiteSettings = {
   introImage1?: string;
   introImage2?: string;
   collageImages?: string[];
+  collageImage?: string;
   aboutImage?: string;
   videoPoster?: string;
   heroVideo?: string;
@@ -169,6 +170,7 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     introImage1: row?.intro_image_1 || undefined,
     introImage2: row?.intro_image_2 || undefined,
     collageImages: row?.collage_images?.length ? row.collage_images : undefined,
+    collageImage: row?.collage_image || undefined,
     aboutImage: row?.about_image || undefined,
     videoPoster: row?.video_poster || undefined,
     heroVideo: row?.hero_video || undefined,

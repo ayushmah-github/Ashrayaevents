@@ -10,13 +10,14 @@ export default async function CollageMosaic() {
   const settings = await getSiteSettings();
   const uploaded = settings.collageImages ?? [];
 
-  // If a single image is uploaded, treat it as a ready-made collage banner.
-  if (uploaded.length === 1) {
+  // A single ready-made collage banner (dedicated field, or one uploaded photo).
+  const single = settings.collageImage || (uploaded.length === 1 ? uploaded[0] : "");
+  if (single) {
     return (
       <section className="bg-cream">
         <div className="relative aspect-[16/9] w-full">
           <Image
-            src={uploaded[0]}
+            src={single}
             alt="Celebrating love, the Ashraya way"
             fill
             sizes="100vw"

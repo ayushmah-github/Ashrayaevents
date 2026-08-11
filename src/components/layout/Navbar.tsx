@@ -39,7 +39,7 @@ export default function Navbar() {
       )}
     >
       <nav className="flex w-full items-center justify-between px-6 py-4 sm:px-10 lg:px-14">
-        <Logo className="text-cream" size="lg" showTagline={false} />
+        <Logo className="text-cream" size="lg" showTagline />
 
         {/* Desktop links */}
         <ul className="font-nav hidden items-center gap-8 lg:flex">

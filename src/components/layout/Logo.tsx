@@ -47,7 +47,7 @@ export default function Logo({
         <span className="flex flex-col items-center leading-none">
           <span className={cn("font-signature", word)}>Ashraya Events</span>
           {showTagline && (
-            <span className={cn("mt-1 font-sans uppercase tracking-[0.35em]", tag)}>
+            <span className={cn("mt-1.5 font-nav uppercase tracking-[0.32em] text-gold-light", tag)}>
               A home for your events
             </span>
           )}

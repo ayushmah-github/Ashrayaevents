@@ -264,12 +264,12 @@ export type WeddingCategory = {
 };
 
 export const weddingCategories: WeddingCategory[] = [
-  { title: "Destination Weddings", description: "Celebrate anywhere in the world — beaches, palaces and hillside resorts.", image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=700&q=70&auto=format&fit=crop", tint: "#F2E9DC" },
-  { title: "Beach Weddings", description: "Blue skies and golden sands for a barefoot celebration by the sea.", image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=70&auto=format&fit=crop", tint: "#EDDAD3" },
-  { title: "Palace & Fort Weddings", description: "Royal courtyards and heritage grandeur for a timeless affair.", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=700&q=70&auto=format&fit=crop", tint: "#E7E0D0" },
-  { title: "Intimate Weddings", description: "Tie the knot with your closest few in a warm, cosy setting.", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=700&q=70&auto=format&fit=crop", tint: "#DCE4DA" },
-  { title: "Garden Weddings", description: "Lush greenery and open skies for an elegant outdoor celebration.", image: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=700&q=70&auto=format&fit=crop", tint: "#E4E7DC" },
-  { title: "Mountain Weddings", description: "Say your vows amid breathtaking valleys and misty peaks.", image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=70&auto=format&fit=crop", tint: "#E7E1EA" },
+  { title: "Cruise Weddings", description: "Amidst the ocean, celebrate your day of love in the grand cruise.", image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?w=700&q=70&auto=format&fit=crop", tint: "#E3D5BC" },
+  { title: "Beach Weddings", description: "Beautiful off shores, blue skies, all you desire to tie your note amidst beachy waves.", image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=70&auto=format&fit=crop", tint: "#E7C9C4" },
+  { title: "Vineyard Weddings", description: "Lush green wineries, to provide you a clique vibe to tie your knot with your soul mate.", image: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=700&q=70&auto=format&fit=crop", tint: "#D9E5DE" },
+  { title: "Intimate Weddings", description: "Tie the knot with the love of your life in a cozy intimate setting.", image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=700&q=70&auto=format&fit=crop", tint: "#DDE2CB" },
+  { title: "Fort Weddings", description: "Royalty & aesthetic grandeur to make your wedding a historic memory.", image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=700&q=70&auto=format&fit=crop", tint: "#E6D2B8" },
+  { title: "Mountain Weddings", description: "High hill top chilly weather, special ambience for your celebration.", image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=70&auto=format&fit=crop", tint: "#DADEEF" },
 ];
 
 export type Capability = { title: string; image: string };

@@ -10,14 +10,20 @@ export default async function CollageMosaic() {
   const settings = await getSiteSettings();
   const uploaded = settings.collageImages ?? [];
 
-  // A single ready-made collage banner (dedicated field, or one uploaded photo).
-  const single = settings.collageImage || (uploaded.length === 1 ? uploaded[0] : "");
-  if (single) {
+  // Grid mode takes priority as soon as you've uploaded ANY individual tile —
+  // missing slots quietly fall back to placeholders until you fill them in.
+  if (uploaded.length > 0) {
+    const collageImages = Array.from({ length: 8 }, (_, i) => uploaded[i] || fallback[i]);
+    return <Grid images={collageImages} />;
+  }
+
+  // Single ready-made collage banner (only used if no grid tiles are set).
+  if (settings.collageImage) {
     return (
       <section className="bg-cream">
         <div className="relative aspect-[16/9] w-full">
           <Image
-            src={single}
+            src={settings.collageImage}
             alt="Celebrating love, the Ashraya way"
             fill
             sizes="100vw"
@@ -29,7 +35,10 @@ export default async function CollageMosaic() {
     );
   }
 
-  const collageImages = uploaded.length >= 8 ? uploaded : fallback;
+  return <Grid images={fallback} />;
+}
+
+function Grid({ images: collageImages }: { images: string[] }) {
   return (
     <section className="bg-cream">
       <div className="grid grid-cols-2 sm:grid-cols-4">

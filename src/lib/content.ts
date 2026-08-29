@@ -253,6 +253,9 @@ export const collageImages: string[] = [
   "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=70&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1583939411023-14783179e581?w=800&q=70&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=800&q=70&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=70&auto=format&fit=crop",
 ];
 
 export type Award = { name: string; image?: string };

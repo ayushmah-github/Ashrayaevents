@@ -222,6 +222,47 @@ alter table site_settings add column if not exists youtube_ids     text[] defaul
 alter table site_settings add column if not exists instagram_embed text;
 alter table site_settings add column if not exists instagram_posts text[] default '{}';
 
+-- ---- About page CMS (dedicated /admin/about-editor) -------------------------
+create table if not exists page_content (
+  id uuid primary key default gen_random_uuid(),
+  section_key text not null unique,     -- e.g. 'about_hero', 'about_story', 'about_cta'
+  title text, subtitle text, body_markdown text, media_url text,
+  seo_title text, seo_description text,
+  is_published boolean default true,
+  updated_at timestamptz default now()
+);
+create table if not exists core_values (
+  id uuid primary key default gen_random_uuid(),
+  icon text, title text not null, description text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists about_stats (
+  id uuid primary key default gen_random_uuid(),
+  label text not null, value text not null, prefix_suffix text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+alter table page_content  enable row level security;
+alter table core_values   enable row level security;
+alter table about_stats   enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['page_content','core_values','about_stats']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
+-- Extend team_members with social link + active flag (idempotent):
+alter table team_members add column if not exists linkedin_url text;
+alter table team_members add column if not exists is_active boolean default true;
+
+-- Extend testimonials with a "featured on About page" flag (idempotent):
+alter table testimonials add column if not exists is_featured boolean default false;
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

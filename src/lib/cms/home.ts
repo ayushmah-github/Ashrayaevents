@@ -45,16 +45,25 @@ export const getServiceTiles = cache(async (): Promise<Capability[]> => {
   return data.map((r) => ({ title: r.title, image: r.image ?? "" }));
 });
 
-export type TeamMember = { name: string; role: string; bio: string; image: string };
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  linkedinUrl?: string;
+};
 export const getTeam = cache(async (): Promise<TeamMember[]> => {
   const data = await rows("team_members");
   if (!data || !data.length) return fbTeam as TeamMember[];
-  return data.map((r) => ({
-    name: r.name,
-    role: r.role ?? "",
-    bio: r.bio ?? "",
-    image: r.image ?? "",
-  }));
+  return data
+    .filter((r) => r.is_active !== false)
+    .map((r) => ({
+      name: r.name,
+      role: r.role ?? "",
+      bio: r.bio ?? "",
+      image: r.image ?? "",
+      linkedinUrl: r.linkedin_url || undefined,
+    }));
 });
 
 export const getAwards = cache(async (): Promise<Award[]> => {

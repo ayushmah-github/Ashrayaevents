@@ -19,15 +19,22 @@ export default function AdminShell({
         </Link>
         <nav className="mt-8 flex flex-1 flex-col gap-1">
           <SideLink href="/admin" label="Dashboard" active={active === "dashboard"} />
+          <SideLink
+            href="/admin/about-editor"
+            label="About Page Editor"
+            active={active === "about-editor"}
+          />
           <div className="my-3 h-px bg-cream/10" />
-          {Object.values(RESOURCES).map((r) => (
-            <SideLink
-              key={r.table}
-              href={`/admin/${r.table}`}
-              label={r.label}
-              active={active === r.table}
-            />
-          ))}
+          {Object.values(RESOURCES)
+            .filter((r) => !r.hideFromNav)
+            .map((r) => (
+              <SideLink
+                key={r.table}
+                href={`/admin/${r.table}`}
+                label={r.label}
+                active={active === r.table}
+              />
+            ))}
         </nav>
         <div className="mt-6 flex flex-col gap-3 border-t border-cream/10 pt-5">
           <Link href="/" target="_blank" className="text-xs text-cream/70 hover:text-gold">

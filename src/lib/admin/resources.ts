@@ -38,6 +38,9 @@ export type Resource = {
   subtitleField?: string;
   imageField?: string;
   fields: Field[];
+  /** Hide from the main admin sidebar (still reachable via /admin/[table], e.g.
+   *  when it's embedded inside a curated dashboard like /admin/about-editor). */
+  hideFromNav?: boolean;
 };
 
 const CATEGORIES = ["Wedding", "Destination", "Corporate", "Birthday", "Décor"];
@@ -88,6 +91,7 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "location", label: "Location", type: "text" },
       { name: "rating", label: "Rating (1–5)", type: "number" },
       { name: "quote", label: "Quote", type: "textarea" },
+      { name: "is_featured", label: "Feature on About page", type: "boolean" },
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
@@ -224,8 +228,10 @@ export const RESOURCES: Record<string, Resource> = {
     fields: [
       { name: "name", label: "Name", type: "text" },
       { name: "role", label: "Role", type: "text" },
-      { name: "bio", label: "Bio", type: "textarea" },
+      { name: "bio", label: "Bio (shown in profile popup)", type: "textarea" },
       { name: "image", label: "Photo", type: "image" },
+      { name: "linkedin_url", label: "LinkedIn / social URL", type: "text" },
+      { name: "is_active", label: "Show on About page", type: "boolean" },
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
@@ -238,6 +244,34 @@ export const RESOURCES: Record<string, Resource> = {
     fields: [
       { name: "name", label: "Name", type: "text" },
       { name: "image", label: "Logo (optional)", type: "image" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
+  core_values: {
+    table: "core_values",
+    label: "About · Core Values",
+    singular: "Value",
+    titleField: "title",
+    subtitleField: "description",
+    hideFromNav: true,
+    fields: [
+      { name: "icon", label: "Icon", type: "select", options: ["heart", "shield", "wallet", "sparkles", "star", "compass", "gem", "leaf"] },
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "textarea" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
+  about_stats: {
+    table: "about_stats",
+    label: "About · Stats",
+    singular: "Stat",
+    titleField: "label",
+    subtitleField: "value",
+    hideFromNav: true,
+    fields: [
+      { name: "label", label: "Label (e.g. Celebrations planned)", type: "text" },
+      { name: "value", label: "Value (numeric, e.g. 250)", type: "text", help: "Just the number — animates counting up on the About page." },
+      { name: "prefix_suffix", label: "Suffix (e.g. +)", type: "text" },
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },

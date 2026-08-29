@@ -184,6 +184,7 @@ export type Testimonial = {
   location: string;
   quote: string;
   rating: number;
+  isFeatured?: boolean;
 };
 
 // [PLACEHOLDER] replace with real client reviews (Google/WhatsApp screenshots -> text)
@@ -196,13 +197,21 @@ export const testimonials: Testimonial[] = [
   { id: "t6", name: "Sneha & Arjun", event: "Wedding", location: "Jaipur", rating: 5, quote: "Warm, honest and endlessly patient with our big family. It felt like planning with friends who happen to be experts." },
 ];
 
-export type Value = { title: string; description: string };
+export type Value = { icon?: string; title: string; description: string };
 
 export const values: Value[] = [
-  { title: "Personal, not templated", description: "Every celebration starts from your story — never a copy-paste package." },
-  { title: "Calm under pressure", description: "Years of on-ground experience mean nothing rattles us on the day." },
-  { title: "Transparent budgets", description: "Clear pricing and honest advice, so there are no surprises." },
-  { title: "Detail obsessed", description: "From the first flower to the last farewell, the small things get our full attention." },
+  { icon: "heart", title: "Personal, not templated", description: "Every celebration starts from your story — never a copy-paste package." },
+  { icon: "shield", title: "Calm under pressure", description: "Years of on-ground experience mean nothing rattles us on the day." },
+  { icon: "wallet", title: "Transparent budgets", description: "Clear pricing and honest advice, so there are no surprises." },
+  { icon: "sparkles", title: "Detail obsessed", description: "From the first flower to the last farewell, the small things get our full attention." },
+];
+
+// Used specifically by the About page's animated counters.
+export const aboutStats: { label: string; value: string; prefixSuffix?: string }[] = [
+  { label: "Celebrations planned", value: "250", prefixSuffix: "+" },
+  { label: "Years of experience", value: "10", prefixSuffix: "+" },
+  { label: "Destination events", value: "40", prefixSuffix: "+" },
+  { label: "Average client rating", value: "5.0" },
 ];
 
 // [PLACEHOLDER] real founder / team info

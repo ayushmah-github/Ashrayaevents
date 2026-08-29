@@ -131,6 +131,7 @@ export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
     location: r.location ?? "",
     rating: r.rating ?? 5,
     quote: r.quote,
+    isFeatured: r.is_featured ?? false,
   }));
 });
 

@@ -2,18 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Field, Resource } from "@/lib/admin/resources";
+import { uploadFile } from "@/lib/admin/upload-client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Row = Record<string, any>;
-
-async function uploadFile(file: File): Promise<string> {
-  const fd = new FormData();
-  fd.append("file", file);
-  const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Upload failed");
-  return data.url as string;
-}
 
 export default function ResourceManager({ resource }: { resource: Resource }) {
   const { table, singleton } = resource;

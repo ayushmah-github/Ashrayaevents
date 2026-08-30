@@ -263,6 +263,62 @@ alter table team_members add column if not exists is_active boolean default true
 -- Extend testimonials with a "featured on About page" flag (idempotent):
 alter table testimonials add column if not exists is_featured boolean default false;
 
+-- ---- About page: narrative sections (Shaandaar-style) -----------------------
+create table if not exists recognitions (
+  id uuid primary key default gen_random_uuid(),
+  text text not null,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists destinations (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  region text not null default 'Domestic',   -- 'Domestic' | 'International'
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+alter table recognitions enable row level security;
+alter table destinations enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['recognitions','destinations']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
+-- ---- How It Works page: 4-step journey + team roles --------------------------
+create table if not exists process_phases (
+  id uuid primary key default gen_random_uuid(),
+  step_number int not null,        -- groups phases under the same numbered step (1-4)
+  step_title text not null,        -- e.g. "Introductory Call" (same for every phase in the step)
+  phase_title text not null,       -- e.g. "We Review Your Enquiry"
+  phase_description text,
+  cta_label text,                  -- optional small CTA, e.g. "Fill Your Form" (opens the enquiry drawer)
+  sort_order int default 0, created_at timestamptz default now()
+);
+create table if not exists role_cards (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,             -- e.g. "Wedding Consultant"
+  description text,
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+alter table process_phases enable row level security;
+alter table role_cards     enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['process_phases','role_cards']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

@@ -4,43 +4,79 @@ import ResourceManager from "@/components/admin/ResourceManager";
 import { RESOURCES } from "@/lib/admin/resources";
 
 /**
- * Curated single-page dashboard for everything on the public /about page:
- * Hero, Brand Story and CTA copy (each with its own draft/publish toggle +
- * SEO fields), plus embedded managers for Core Values, Stats, Team and
- * Testimonials — all in one place instead of hunting across separate pages.
+ * Curated single-page dashboard for everything on the public /about page —
+ * a narrative journey (Hero, Founder, Approach, Personal by Design, Journey,
+ * Recognitions, Destinations, CTA), each text section with its own
+ * Published/Draft switch and SEO fields, plus embedded managers for the
+ * list-style sections (Recognitions, Destinations).
  */
 export default function AboutEditorPage() {
   return (
     <AdminShell active="about-editor">
       <h1 className="font-serif text-4xl text-maroon">About Page Editor</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Everything shown on <code>/about</code> lives here. Each section has its
-        own <strong>Published / Draft</strong> switch — toggle a section to Draft
-        to hide it from visitors while you're still working on it, without
-        affecting the rest of the page.
+        Everything shown on <code>/about</code> lives here, top to bottom. Each
+        text section has its own <strong>Published / Draft</strong> switch — toggle
+        a section to Draft to hide it from visitors while you're still working on
+        it, without affecting the rest of the page.
       </p>
 
       <div className="mt-8 space-y-6">
         <AboutSectionEditor
           sectionKey="about_hero"
-          title="Hero Banner"
+          title="Hero"
           showSeo
           fields={[
             { name: "title", label: "Headline" },
             { name: "subtitle", label: "Subheadline", type: "textarea" },
-            { name: "media_url", label: "Background image / video poster", type: "image" },
+            { name: "media_url", label: "Background image", type: "image" },
           ]}
         />
 
         <AboutSectionEditor
-          sectionKey="about_story"
-          title="Brand Story"
+          sectionKey="about_founder"
+          title="Founder Spotlight"
           fields={[
-            { name: "title", label: "Heading" },
-            { name: "body_markdown", label: "Story text", type: "textarea", help: "Plain text or Markdown." },
-            { name: "media_url", label: "Story image", type: "image" },
+            { name: "title", label: "Founder name" },
+            { name: "subtitle", label: "Role / one-line tagline" },
+            { name: "media_url", label: "Founder photo", type: "image" },
+            { name: "body_markdown", label: "Bio", type: "textarea" },
           ]}
         />
+
+        <AboutSectionEditor
+          sectionKey="about_approach"
+          title="Our Approach"
+          fields={[
+            { name: "title", label: "Heading" },
+            { name: "body_markdown", label: "Body text", type: "textarea" },
+          ]}
+        />
+
+        <AboutSectionEditor
+          sectionKey="about_personal"
+          title="Personal by Design"
+          fields={[
+            { name: "title", label: "Heading" },
+            { name: "body_markdown", label: "Body text", type: "textarea" },
+          ]}
+        />
+
+        <AboutSectionEditor
+          sectionKey="about_journey"
+          title="Our Journey"
+          fields={[
+            { name: "title", label: "Heading" },
+            { name: "body_markdown", label: "Body text (the origin story)", type: "textarea" },
+            { name: "media_url", label: "Image (optional)", type: "image" },
+          ]}
+        />
+
+        <Divider label="Recognised Excellence (Awards)" />
+        <ResourceManager resource={RESOURCES.recognitions} />
+
+        <Divider label="Destinations We Cover" />
+        <ResourceManager resource={RESOURCES.destinations} />
 
         <AboutSectionEditor
           sectionKey="about_cta"
@@ -50,22 +86,6 @@ export default function AboutEditorPage() {
             { name: "subtitle", label: "Supporting text", type: "textarea" },
           ]}
         />
-
-        <Divider label="Metrics & Achievements" />
-        <ResourceManager resource={RESOURCES.about_stats} />
-
-        <Divider label="Core Values" />
-        <ResourceManager resource={RESOURCES.core_values} />
-
-        <Divider label="Leadership & Team" />
-        <ResourceManager resource={RESOURCES.team_members} />
-
-        <Divider label="Client Testimonials" />
-        <p className="-mt-2 text-sm text-ink-soft">
-          Tick <strong>“Feature on About page”</strong> on the testimonials you want to
-          show here (all testimonials still appear on the main Testimonials page).
-        </p>
-        <ResourceManager resource={RESOURCES.testimonials} />
       </div>
     </AdminShell>
   );

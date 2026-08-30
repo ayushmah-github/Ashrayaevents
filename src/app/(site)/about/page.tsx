@@ -2,21 +2,20 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import PageHeader from "@/components/layout/PageHeader";
 import Section from "@/components/ui/Section";
-import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
-import TeamShowcase from "@/components/sections/TeamShowcase";
-import TestimonialsCarousel from "@/components/sections/TestimonialsCarousel";
+import InstagramStrip from "@/components/sections/InstagramStrip";
 import InquiryDrawer from "@/components/shared/InquiryDrawer";
-import AnimatedStat from "@/components/shared/AnimatedStat";
-import ValueIcon from "@/components/shared/ValueIcon";
-import { values as fbValues } from "@/lib/content";
-import { getTeam, getPageBanner } from "@/lib/cms/home";
-import { getSiteSettings, getTestimonials } from "@/lib/cms/content";
-import { getPageContent, getCoreValues, getAboutStats } from "@/lib/cms/about";
+import { getPageBanner } from "@/lib/cms/home";
+import { getPageContent, getRecognitions, getDestinations } from "@/lib/cms/about";
 
 const DEFAULT_DESCRIPTION =
   "Meet Ashraya Events — a wedding & event planning studio crafting warm, elegant, unforgettable celebrations.";
+
+const DEFAULT_FOUNDER_IMAGE =
+  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70&auto=format&fit=crop";
+const DEFAULT_JOURNEY_IMAGE =
+  "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop";
 
 export const dynamic = "force-dynamic";
 
@@ -29,149 +28,208 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [team, settings, banner, hero, story, cta, coreValues, stats, allTestimonials] =
+  const [banner, hero, founder, approach, personal, journey, cta, recognitions, destinations] =
     await Promise.all([
-      getTeam(),
-      getSiteSettings(),
       getPageBanner("About"),
       getPageContent("about_hero"),
-      getPageContent("about_story"),
+      getPageContent("about_founder"),
+      getPageContent("about_approach"),
+      getPageContent("about_personal"),
+      getPageContent("about_journey"),
       getPageContent("about_cta"),
-      getCoreValues(),
-      getAboutStats(),
-      getTestimonials(),
+      getRecognitions(),
+      getDestinations(),
     ]);
 
-  const aboutImage =
-    story.mediaUrl ||
-    settings.aboutImage ||
-    "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop";
-
-  const featuredTestimonials = allTestimonials.filter((t) => t.isFeatured);
-  const testimonialItems = featuredTestimonials.length ? featuredTestimonials : allTestimonials;
+  const domestic = destinations.filter((d) => d.region === "Domestic");
+  const international = destinations.filter((d) => d.region === "International");
 
   return (
     <>
-      {/* Hero — driven by About Page Editor → Hero Banner (falls back to the
-          generic per-page banner + defaults if not yet configured). */}
+      {/* Hero */}
       {hero.isPublished && (
-        <PageHeader
-          eyebrow="Our story"
-          title={hero.title || banner?.title || "About Ashraya Events"}
-          intro={
-            hero.subtitle ||
-            banner?.subtitle ||
-            "Planners at heart, storytellers by craft — here to make your celebration effortless and unforgettable."
-          }
-          image={hero.mediaUrl || banner?.image}
-        />
-      )}
-      {hero.isPublished && (
-        <div className="bg-maroon pb-14 pt-2 text-center">
-          <InquiryDrawer
-            triggerLabel="Plan Your Event"
-            triggerClassName="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-sm font-semibold text-maroon-dark transition-transform hover:-translate-y-0.5 hover:bg-gold-dark hover:text-cream"
+        <>
+          <PageHeader
+            eyebrow="Our story"
+            title={hero.title || banner?.title || "About Us"}
+            intro={
+              hero.subtitle ||
+              banner?.subtitle ||
+              "Take a moment to learn who we are, how we think, and why couples trust us with their biggest day."
+            }
+            image={hero.mediaUrl || banner?.image}
           />
-        </div>
+          <div className="bg-maroon pb-14 pt-2 text-center">
+            <InquiryDrawer
+              triggerLabel="Inquire Now"
+              triggerClassName="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-sm font-semibold text-maroon-dark transition-transform hover:-translate-y-0.5 hover:bg-gold-dark hover:text-cream"
+            />
+          </div>
+        </>
       )}
 
-      {/* Brand Story */}
-      {story.isPublished && (
+      {/* Founder Spotlight */}
+      {founder.isPublished && (
         <Section tone="cream">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal>
-              <div className="group relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
                 <Image
-                  src={aboutImage}
-                  alt="Ashraya Events at work"
+                  src={founder.mediaUrl || DEFAULT_FOUNDER_IMAGE}
+                  alt={founder.title || "Founder of Ashraya Events"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             </Reveal>
             <Reveal delayIndex={1}>
-              <p className="eyebrow text-gold-dark">Who we are</p>
+              <p className="eyebrow text-gold-dark">Meet the founder</p>
               <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
-                {story.title || "A celebration should feel personal."}
+                {founder.title || "[PLACEHOLDER] Founder Name"}
               </h2>
-              <div className="mt-6 space-y-4 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
-                {story.bodyMarkdown || (
-                  <>
-                    <p>
-                      Ashraya Events was founded on the belief that no two celebrations
-                      should look the same. We start with your story — your people, your
-                      taste, your traditions — and design an experience around it.
-                    </p>
-                    <p>
-                      Over the years we&rsquo;ve planned weddings across cities and
-                      borders, corporate events for growing brands, and intimate parties
-                      that mean the world. Whatever the scale, our promise stays the
-                      same: thoughtful design, honest guidance and flawless execution.
-                    </p>
-                  </>
-                )}
+              {founder.subtitle && (
+                <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-gold-dark">
+                  {founder.subtitle}
+                </p>
+              )}
+              <div className="mt-6 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
+                {founder.bodyMarkdown ||
+                  "[PLACEHOLDER] The founder's story — what led them to start Ashraya Events, their planning philosophy, and what they bring to every celebration."}
               </div>
-              <p className="mt-4 font-serif text-2xl text-maroon">
-                &ldquo;We plan, so you can simply celebrate.&rdquo;
-              </p>
             </Reveal>
           </div>
         </Section>
       )}
 
-      {/* Metrics & Achievements */}
-      <Section tone="sand" className="py-16 sm:py-20">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {stats.map((s, i) => (
-            <Reveal key={s.label} delayIndex={i} className="text-center">
-              <p className="font-serif text-4xl text-gold-dark sm:text-5xl">
-                <AnimatedStat value={s.value} suffix={s.prefixSuffix} />
-              </p>
-              <p className="mt-2 text-sm uppercase tracking-wider text-ink-soft">{s.label}</p>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
+      {/* Our Approach */}
+      {approach.isPublished && (
+        <Section tone="sand">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow text-gold-dark">Our approach</p>
+            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+              {approach.title || "Our Approach"}
+            </h2>
+            <div className="mx-auto mt-6 space-y-4 whitespace-pre-line text-left text-lg leading-relaxed text-ink-soft sm:text-center">
+              {approach.bodyMarkdown ||
+                "We believe planning a celebration is about more than logistics — it's about understanding people, emotions and the story behind every gathering. We take on a limited number of events at a time, so we can give each one our full creativity and attention, from the first conversation to the very last farewell."}
+            </div>
+          </Reveal>
+        </Section>
+      )}
 
-      {/* Core Values */}
-      <Section tone="cream">
-        <SectionHeading
-          eyebrow="Why choose us"
-          title="What sets us apart"
-          intro="The values that shape every celebration we touch."
-        />
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {(coreValues.length ? coreValues : fbValues).map((v, i) => (
-            <Reveal key={v.title} delayIndex={i % 4}>
-              <div className="flex h-full flex-col items-start gap-4 rounded-[var(--radius-xl2)] bg-white p-7 shadow-[0_10px_40px_-28px_rgba(74,16,32,0.4)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/15 text-gold-dark">
-                  <ValueIcon name={v.icon} />
-                </div>
-                <div>
-                  <h3 className="text-xl text-maroon">{v.title}</h3>
-                  <p className="mt-2 leading-relaxed text-ink-soft">{v.description}</p>
-                </div>
+      {/* Personal by Design */}
+      {personal.isPublished && (
+        <Section tone="cream">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow text-gold-dark">Our philosophy</p>
+            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+              {personal.title || "Personal by Design"}
+            </h2>
+            <div className="mx-auto mt-6 space-y-4 whitespace-pre-line text-left text-lg leading-relaxed text-ink-soft sm:text-center">
+              {personal.bodyMarkdown ||
+                "What defines an Ashraya celebration is the personalisation behind it — the small, thoughtful details that turn an event into a memory. A colour palette that reflects you, a welcome note in your own words, a detail only your closest guests will notice. Behind every relaxed, effortless day sits a meticulously planned one."}
+            </div>
+          </Reveal>
+        </Section>
+      )}
+
+      {/* Our Journey */}
+      {journey.isPublished && (
+        <Section tone="sand">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <Reveal delayIndex={1} className="order-2 lg:order-1">
+              <p className="eyebrow text-gold-dark">Our journey</p>
+              <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+                {journey.title || "A Journey Beyond Borders"}
+              </h2>
+              <div className="mt-6 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
+                {journey.bodyMarkdown ||
+                  "[PLACEHOLDER] Ashraya Events began with a simple belief — that every celebration deserves to feel personal and unforgettable. What started small has grown into a studio trusted for weddings and events across cities and destinations, each one carrying the same philosophy: thoughtful, elegant, and designed around you."}
               </div>
             </Reveal>
-          ))}
-        </div>
-      </Section>
+            <Reveal className="order-1 lg:order-2">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
+                <Image
+                  src={journey.mediaUrl || DEFAULT_JOURNEY_IMAGE}
+                  alt="Ashraya Events celebration"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
+        </Section>
+      )}
 
-      {/* Leadership & Team */}
-      <Section tone="white">
-        <SectionHeading
-          eyebrow="The team"
-          title="The people behind the magic"
-          intro="Tap a profile to read their full story."
-        />
-        <TeamShowcase team={team} />
-      </Section>
+      {/* Recognised Excellence */}
+      {recognitions.length > 0 && (
+        <Section tone="cream">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow text-gold-dark">Recognised excellence</p>
+            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+              Honoured, but not defined by it
+            </h2>
+          </Reveal>
+          <ul className="mx-auto mt-10 max-w-xl space-y-4">
+            {recognitions.map((r, i) => (
+              <Reveal key={r} delayIndex={i % 4}>
+                <li className="flex items-start gap-3 rounded-2xl bg-white p-5 shadow-[0_10px_40px_-30px_rgba(74,16,32,0.4)]">
+                  <span className="mt-0.5 text-gold-dark">✦</span>
+                  <span className="text-ink">{r}</span>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+          <p className="mx-auto mt-8 max-w-xl text-center text-ink-soft">
+            While these honours mean a great deal to us, our greatest reward is
+            still hearing a couple say their celebration felt truly like them.
+          </p>
+        </Section>
+      )}
 
-      {/* Client Testimonials */}
-      <Section tone="sand">
-        <SectionHeading eyebrow="Kind words" title="What our clients say" />
-        <TestimonialsCarousel items={testimonialItems} />
+      {/* Destinations */}
+      {destinations.length > 0 && (
+        <Section tone="sand">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow text-gold-dark">Where we celebrate</p>
+            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">Destinations</h2>
+          </Reveal>
+          <div className="mx-auto mt-12 grid max-w-2xl gap-10 sm:grid-cols-2">
+            {domestic.length > 0 && (
+              <Reveal>
+                <h3 className="text-xl text-maroon">India</h3>
+                <ul className="mt-4 space-y-2 text-ink-soft">
+                  {domestic.map((d) => (
+                    <li key={d.name}>{d.name}</li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
+            {international.length > 0 && (
+              <Reveal delayIndex={1}>
+                <h3 className="text-xl text-maroon">International</h3>
+                <ul className="mt-4 space-y-2 text-ink-soft">
+                  {international.map((d) => (
+                    <li key={d.name}>{d.name}</li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
+          </div>
+        </Section>
+      )}
+
+      {/* Instagram */}
+      <Section tone="cream">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow text-gold-dark">Follow along</p>
+          <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+            Moments, as they happen
+          </h2>
+        </Reveal>
+        <InstagramStrip />
       </Section>
 
       {/* CTA */}

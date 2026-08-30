@@ -24,6 +24,11 @@ export default function AdminShell({
             label="About Page Editor"
             active={active === "about-editor"}
           />
+          <SideLink
+            href="/admin/how-it-works-editor"
+            label="How It Works Editor"
+            active={active === "how-it-works-editor"}
+          />
           <div className="my-3 h-px bg-cream/10" />
           {Object.values(RESOURCES)
             .filter((r) => !r.hideFromNav)

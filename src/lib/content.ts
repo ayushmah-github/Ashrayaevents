@@ -214,6 +214,117 @@ export const aboutStats: { label: string; value: string; prefixSuffix?: string }
   { label: "Average client rating", value: "5.0" },
 ];
 
+// [PLACEHOLDER] press mentions / award citations shown on the About page.
+export const recognitions: string[] = [
+  "Featured Wedding Planner 2026 — WeddingWire India",
+  "Rising Star in Destination Weddings — WedMeGood",
+  "Top-Rated Planner, Client Choice — WeddingSutra",
+];
+
+export type Destination = { name: string; region: "Domestic" | "International" };
+// [PLACEHOLDER] the real cities/countries the client actually serves.
+export const destinations: Destination[] = [
+  { name: "Jaipur", region: "Domestic" },
+  { name: "Udaipur", region: "Domestic" },
+  { name: "Goa", region: "Domestic" },
+  { name: "Delhi NCR", region: "Domestic" },
+  { name: "Chandigarh", region: "Domestic" },
+  { name: "Shimla", region: "Domestic" },
+  { name: "Dubai", region: "International" },
+  { name: "Bali", region: "International" },
+  { name: "Maldives", region: "International" },
+  { name: "Thailand", region: "International" },
+];
+
+export type ProcessPhase = {
+  stepNumber: number;
+  stepTitle: string;
+  phaseTitle: string;
+  phaseDescription: string;
+  ctaLabel?: string;
+};
+
+// The 4-step planning journey shown on /how-it-works.
+export const processPhases: ProcessPhase[] = [
+  {
+    stepNumber: 1,
+    stepTitle: "The First Conversation",
+    phaseTitle: "We Learn About Your Celebration",
+    phaseDescription:
+      "Once you reach out, we take time to understand your dates, guest count, city or destination, budget and the overall feel you're imagining — so our very first call is genuinely useful, not generic.",
+    ctaLabel: "Share Your Details",
+  },
+  {
+    stepNumber: 1,
+    stepTitle: "The First Conversation",
+    phaseTitle: "A Personal Discovery Call",
+    phaseDescription:
+      "We set up a relaxed conversation to hear your vision in your own words, answer your questions honestly, and share how we'd approach a celebration like yours.",
+  },
+  {
+    stepNumber: 2,
+    stepTitle: "Proposal & Onboarding",
+    phaseTitle: "A Proposal Built Around You",
+    phaseDescription:
+      "You receive a tailored proposal — venue ideas, a planning approach and an honest budget outline — shaped entirely around what you told us, not a one-size-fits-all package.",
+  },
+  {
+    stepNumber: 2,
+    stepTitle: "Proposal & Onboarding",
+    phaseTitle: "Locking In Your Dates",
+    phaseDescription:
+      "Once you're ready to move forward, we confirm your dates, handle the paperwork, and introduce you to the team who will be with you through the whole journey.",
+  },
+  {
+    stepNumber: 3,
+    stepTitle: "Design & Planning",
+    phaseTitle: "Bringing the Vision to Life",
+    phaseDescription:
+      "Together we finalise the theme, décor, guest experience and every creative detail — crafted to reflect your story, not a template.",
+  },
+  {
+    stepNumber: 3,
+    stepTitle: "Design & Planning",
+    phaseTitle: "Coordination Behind the Scenes",
+    phaseDescription:
+      "We manage timelines, vendors, logistics and every moving part so the lead-up to your celebration stays calm and organised.",
+  },
+  {
+    stepNumber: 4,
+    stepTitle: "Your Celebration",
+    phaseTitle: "Flawless on the Day",
+    phaseDescription:
+      "From the first moment to the last, our team handles every detail on the ground so you and your guests are fully present in the celebration.",
+  },
+  {
+    stepNumber: 4,
+    stepTitle: "Your Celebration",
+    phaseTitle: "After the Celebration",
+    phaseDescription:
+      "We wrap up final details with vendors and venues after the event, so the only thing you carry forward are the memories.",
+  },
+];
+
+export type RoleCard = { title: string; description: string };
+// [PLACEHOLDER] the real roles/people a couple works with.
+export const roleCards: RoleCard[] = [
+  {
+    title: "Wedding Consultant",
+    description:
+      "Your first point of contact — walks you through our process, discusses your vision and puts together your initial proposal.",
+  },
+  {
+    title: "Dedicated Wedding Planner",
+    description:
+      "Your day-to-day planning partner, overseeing design, timelines, vendors and guest experience from start to finish.",
+  },
+  {
+    title: "Client Relations & Coordination",
+    description:
+      "Keeps contracts, payments and documentation transparent and organised, so nothing falls through the cracks.",
+  },
+];
+
 // [PLACEHOLDER] real founder / team info
 export const team = [
   {

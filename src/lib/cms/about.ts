@@ -5,7 +5,13 @@
  * ========================================================================== */
 import { cache } from "react";
 import { supabasePublic } from "@/lib/supabase/client";
-import { values as fbValues, aboutStats as fbStats } from "@/lib/content";
+import {
+  values as fbValues,
+  aboutStats as fbStats,
+  recognitions as fbRecognitions,
+  destinations as fbDestinations,
+  type Destination,
+} from "@/lib/content";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -74,5 +80,28 @@ export const getAboutStats = cache(async (): Promise<AboutStat[]> => {
     label: r.label,
     value: r.value,
     prefixSuffix: r.prefix_suffix || undefined,
+  }));
+});
+
+export const getRecognitions = cache(async (): Promise<string[]> => {
+  if (!supabasePublic) return fbRecognitions;
+  const { data } = await supabasePublic
+    .from("recognitions")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (!data || !data.length) return fbRecognitions;
+  return data.map((r: any) => r.text);
+});
+
+export const getDestinations = cache(async (): Promise<Destination[]> => {
+  if (!supabasePublic) return fbDestinations;
+  const { data } = await supabasePublic
+    .from("destinations")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (!data || !data.length) return fbDestinations;
+  return data.map((r: any) => ({
+    name: r.name,
+    region: r.region === "International" ? "International" : "Domestic",
   }));
 });

@@ -20,10 +20,3 @@ export function youtubeId(input: string): string {
   if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
   return s;
 }
-
-/** Turn an Instagram post/reel URL into its embeddable iframe URL. */
-export function instagramEmbedUrl(input: string): string {
-  const s = (input || "").trim().replace(/\/$/, "");
-  if (!s) return "";
-  return `${s}/embed`;
-}

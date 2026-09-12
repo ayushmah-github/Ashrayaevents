@@ -13,6 +13,7 @@ export type FieldType =
   | "slug"
   | "date"
   | "select"
+  | "reference"
   | "image"
   | "list"
   | "imagelist"
@@ -26,6 +27,10 @@ export type Field = {
   label: string;
   type: FieldType;
   options?: string[];
+  /** For type "reference": which table to pick a row from, and which of its
+   *  columns to show as the option label (defaults to "title"). */
+  referenceTable?: string;
+  referenceLabel?: string;
   help?: string;
 };
 
@@ -33,6 +38,9 @@ export type Resource = {
   table: string;
   label: string; // plural, for nav
   singular: string;
+  /** Custom wording appended to the delete confirmation (e.g. to warn about
+   *  cascading child rows). */
+  deleteWarning?: string;
   singleton?: boolean;
   titleField: string;
   subtitleField?: string;
@@ -299,32 +307,57 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
-  process_phases: {
-    table: "process_phases",
-    label: "How It Works · Journey Steps",
-    singular: "Phase",
-    titleField: "phase_title",
-    subtitleField: "step_title",
+  how_it_works_steps: {
+    table: "how_it_works_steps",
+    label: "How It Works · Steps",
+    singular: "Step",
+    titleField: "title",
+    subtitleField: "slug",
     hideFromNav: true,
+    deleteWarning: "This also deletes every content item nested under this step.",
     fields: [
-      { name: "step_number", label: "Step number (1–4)", type: "number", help: "Phases with the same step number are grouped under one tab." },
-      { name: "step_title", label: "Step title (e.g. \"The First Conversation\")", type: "text" },
-      { name: "phase_title", label: "Phase title", type: "text" },
-      { name: "phase_description", label: "Phase description", type: "textarea" },
-      { name: "cta_label", label: "Small CTA label (optional, opens the enquiry form)", type: "text" },
+      { name: "title", label: "Title (e.g. \"Introductory Call\")", type: "text" },
+      { name: "slug", label: "Slug (anchor link, e.g. introductory-call)", type: "slug" },
+      { name: "nav_label", label: "Nav label (optional — defaults to Title)", type: "text" },
+      { name: "icon", label: "Icon", type: "select", options: ["heart", "shield", "wallet", "sparkles", "star", "compass", "gem", "leaf"] },
+      { name: "pull_quote", label: "Pull-quote (optional, shown at the end of this step)", type: "textarea" },
+      { name: "is_active", label: "Show on the page", type: "boolean" },
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
-  role_cards: {
-    table: "role_cards",
+  how_it_works_step_items: {
+    table: "how_it_works_step_items",
+    label: "How It Works · Step Content Items",
+    singular: "Content item",
+    titleField: "heading",
+    subtitleField: "step_id",
+    imageField: "image",
+    hideFromNav: true,
+    fields: [
+      { name: "step_id", label: "Step", type: "reference", referenceTable: "how_it_works_steps", referenceLabel: "title" },
+      { name: "heading", label: "Heading", type: "text" },
+      { name: "body", label: "Body text", type: "textarea" },
+      { name: "image", label: "Image (optional)", type: "image" },
+      { name: "cta_label", label: "CTA label (optional)", type: "text" },
+      { name: "cta_url", label: "CTA link (optional — leave blank to open the enquiry form)", type: "text" },
+      { name: "is_active", label: "Show on the page", type: "boolean" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
+  how_it_works_team_roles: {
+    table: "how_it_works_team_roles",
     label: "How It Works · Team Roles",
     singular: "Role",
     titleField: "title",
     subtitleField: "description",
+    imageField: "image",
     hideFromNav: true,
     fields: [
       { name: "title", label: "Role title", type: "text" },
       { name: "description", label: "Description", type: "textarea" },
+      { name: "icon", label: "Icon (used if no photo)", type: "select", options: ["heart", "shield", "wallet", "sparkles", "star", "compass", "gem", "leaf"] },
+      { name: "image", label: "Photo (optional)", type: "image" },
+      { name: "is_active", label: "Show on the page", type: "boolean" },
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },

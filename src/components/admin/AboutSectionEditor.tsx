@@ -8,6 +8,8 @@ type SectionData = {
   subtitle: string;
   body_markdown: string;
   media_url: string;
+  cta_label: string;
+  cta_url: string;
   seo_title: string;
   seo_description: string;
   is_published: boolean;
@@ -18,6 +20,8 @@ const EMPTY: SectionData = {
   subtitle: "",
   body_markdown: "",
   media_url: "",
+  cta_label: "",
+  cta_url: "",
   seo_title: "",
   seo_description: "",
   is_published: true,
@@ -54,6 +58,8 @@ export default function AboutSectionEditor({
             subtitle: res.data.subtitle || "",
             body_markdown: res.data.body_markdown || "",
             media_url: res.data.media_url || "",
+            cta_label: res.data.cta_label || "",
+            cta_url: res.data.cta_url || "",
             seo_title: res.data.seo_title || "",
             seo_description: res.data.seo_description || "",
             is_published: res.data.is_published !== false,

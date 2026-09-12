@@ -129,7 +129,7 @@ export default function ResourceManager({ resource }: { resource: Resource }) {
               >
                 Edit
               </button>
-              <DeleteButton table={table} id={row.id} onDone={load} />
+              <DeleteButton table={table} id={row.id} onDone={load} warning={resource.deleteWarning} />
             </li>
           ))}
         </ul>
@@ -138,10 +138,23 @@ export default function ResourceManager({ resource }: { resource: Resource }) {
   );
 }
 
-function DeleteButton({ table, id, onDone }: { table: string; id: string; onDone: () => void }) {
+function DeleteButton({
+  table,
+  id,
+  onDone,
+  warning,
+}: {
+  table: string;
+  id: string;
+  onDone: () => void;
+  warning?: string;
+}) {
   const [busy, setBusy] = useState(false);
   async function del() {
-    if (!confirm("Delete this item? This can't be undone.")) return;
+    const message = warning
+      ? `Delete this item? This can't be undone. ${warning}`
+      : "Delete this item? This can't be undone.";
+    if (!confirm(message)) return;
     setBusy(true);
     await fetch(`/api/admin/${table}/${id}`, { method: "DELETE" });
     onDone();
@@ -304,6 +317,14 @@ function FieldInput({
           ))}
         </select>
       )}
+      {field.type === "reference" && (
+        <ReferenceSelect
+          table={field.referenceTable!}
+          labelField={field.referenceLabel || "title"}
+          value={value}
+          onChange={onChange}
+        />
+      )}
       {field.type === "image" && <ImageInput value={value} onChange={onChange} />}
       {field.type === "list" && <ListInput value={value} onChange={onChange} />}
       {field.type === "imagelist" && <ImageListInput value={value} onChange={onChange} />}
@@ -314,6 +335,46 @@ function FieldInput({
 
       {field.help && <p className="mt-1 text-xs text-ink-soft">{field.help}</p>}
     </div>
+  );
+}
+
+/** Dropdown populated from another table's live rows — for simple foreign-key
+ *  fields (e.g. a step-content-item picking its parent step). */
+function ReferenceSelect({
+  table,
+  labelField,
+  value,
+  onChange,
+}: {
+  table: string;
+  labelField: string;
+  value?: string;
+  onChange: (v: string) => void;
+}) {
+  const [options, setOptions] = useState<Row[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/admin/${table}`)
+      .then((r) => r.json())
+      .then((res) => setOptions(res.data || []))
+      .finally(() => setLoading(false));
+  }, [table]);
+
+  return (
+    <select
+      value={value ?? ""}
+      onChange={(e) => onChange(e.target.value)}
+      disabled={loading}
+      className="w-full rounded-xl border border-maroon/20 bg-cream/40 px-4 py-2.5 text-sm outline-none focus:border-gold"
+    >
+      <option value="">{loading ? "Loading…" : "Select…"}</option>
+      {options.map((o) => (
+        <option key={o.id} value={o.id}>
+          {o[labelField] ?? o.id}
+        </option>
+      ))}
+    </select>
   );
 }
 

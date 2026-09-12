@@ -290,34 +290,62 @@ begin
 end $$;
 
 -- ---- How It Works page: 4-step journey + team roles --------------------------
-create table if not exists process_phases (
+-- NOTE: superseded process_phases / role_cards tables from an earlier revision
+-- of this page are intentionally left alone here (schema.sql never drops
+-- tables) — they're just unused now. Drop them by hand in Supabase if desired.
+
+create table if not exists how_it_works_steps (
   id uuid primary key default gen_random_uuid(),
-  step_number int not null,        -- groups phases under the same numbered step (1-4)
-  step_title text not null,        -- e.g. "Introductory Call" (same for every phase in the step)
-  phase_title text not null,       -- e.g. "We Review Your Enquiry"
-  phase_description text,
-  cta_label text,                  -- optional small CTA, e.g. "Fill Your Form" (opens the enquiry drawer)
-  sort_order int default 0, created_at timestamptz default now()
-);
-create table if not exists role_cards (
-  id uuid primary key default gen_random_uuid(),
-  title text not null,             -- e.g. "Wedding Consultant"
-  description text,
+  title text not null,             -- e.g. "Introductory Call"
+  slug text not null unique,       -- anchor target, e.g. "introductory-call"
+  nav_label text,                  -- optional override for the step-navigator label
+  icon text,                       -- one of the shared icon names (see core_values.icon)
+  pull_quote text,                 -- optional emphasised line shown at the end of this step
+  is_active boolean default true,
   sort_order int default 0, created_at timestamptz default now()
 );
 
-alter table process_phases enable row level security;
-alter table role_cards     enable row level security;
+create table if not exists how_it_works_step_items (
+  id uuid primary key default gen_random_uuid(),
+  step_id uuid not null references how_it_works_steps(id) on delete cascade,
+  heading text not null,
+  body text,
+  image text,
+  cta_label text,
+  cta_url text,                    -- if blank, the frontend opens the enquiry drawer instead
+  is_active boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create index if not exists how_it_works_step_items_step_id_idx on how_it_works_step_items(step_id);
+
+create table if not exists how_it_works_team_roles (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,             -- e.g. "Wedding Consultant"
+  description text,
+  icon text,                       -- shown if no photo is set
+  image text,
+  is_active boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+alter table how_it_works_steps      enable row level security;
+alter table how_it_works_step_items enable row level security;
+alter table how_it_works_team_roles enable row level security;
 
 do $$
 declare t text;
 begin
-  foreach t in array array['process_phases','role_cards']
+  foreach t in array array['how_it_works_steps','how_it_works_step_items','how_it_works_team_roles']
   loop
     execute format('drop policy if exists "public read %1$s" on %1$I;', t);
     execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
   end loop;
 end $$;
+
+-- CTA fields on the shared page_content singleton-by-key table (used by the
+-- How It Works intro band's primary CTA, and reusable by any future section):
+alter table page_content add column if not exists cta_label text;
+alter table page_content add column if not exists cta_url   text;
 
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)

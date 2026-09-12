@@ -20,6 +20,8 @@ export type PageSection = {
   subtitle?: string;
   bodyMarkdown?: string;
   mediaUrl?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
   seoTitle?: string;
   seoDescription?: string;
   isPublished: boolean;
@@ -46,6 +48,8 @@ export const getPageContent = cache(
       subtitle: data.subtitle || undefined,
       bodyMarkdown: data.body_markdown || undefined,
       mediaUrl: data.media_url || undefined,
+      ctaLabel: data.cta_label || undefined,
+      ctaUrl: data.cta_url || undefined,
       seoTitle: data.seo_title || undefined,
       seoDescription: data.seo_description || undefined,
       isPublished: data.is_published !== false,

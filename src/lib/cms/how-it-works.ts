@@ -1,63 +1,65 @@
 /* ============================================================================
- * "How It Works" page CMS — the 4-step journey and team-role cards.
- * Managed from /admin/how-it-works-editor.
+ * "How It Works" page CMS — the 4-step journey (steps + nested content items)
+ * and team-role cards. Managed from /admin/how-it-works-editor.
  * ========================================================================== */
 import { cache } from "react";
 import { supabasePublic } from "@/lib/supabase/client";
 import {
-  processPhases as fbPhases,
-  roleCards as fbRoles,
-  type ProcessPhase,
-  type RoleCard,
+  howItWorksSteps as fbSteps,
+  howItWorksTeamRoles as fbRoles,
+  type HowItWorksStep,
+  type HowItWorksTeamRole,
 } from "@/lib/content";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type Step = {
-  stepNumber: number;
-  stepTitle: string;
-  phases: { title: string; description: string; ctaLabel?: string }[];
-};
+/** Steps with their active content items nested, in display order. */
+export const getHowItWorksSteps = cache(async (): Promise<HowItWorksStep[]> => {
+  if (!supabasePublic) return fbSteps;
 
-/** Phases grouped into numbered steps, in the order they appear. */
-export const getJourneySteps = cache(async (): Promise<Step[]> => {
-  let phases: ProcessPhase[] = fbPhases;
-  if (supabasePublic) {
-    const { data } = await supabasePublic
-      .from("process_phases")
-      .select("*")
-      .order("sort_order", { ascending: true });
-    if (data && data.length) {
-      phases = data.map((r: any) => ({
-        stepNumber: r.step_number,
-        stepTitle: r.step_title,
-        phaseTitle: r.phase_title,
-        phaseDescription: r.phase_description ?? "",
-        ctaLabel: r.cta_label || undefined,
-      }));
-    }
-  }
+  const { data: steps } = await supabasePublic
+    .from("how_it_works_steps")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+  if (!steps || !steps.length) return fbSteps;
 
-  const byStep = new Map<number, Step>();
-  for (const p of phases) {
-    if (!byStep.has(p.stepNumber)) {
-      byStep.set(p.stepNumber, { stepNumber: p.stepNumber, stepTitle: p.stepTitle, phases: [] });
-    }
-    byStep.get(p.stepNumber)!.phases.push({
-      title: p.phaseTitle,
-      description: p.phaseDescription,
-      ctaLabel: p.ctaLabel,
-    });
-  }
-  return [...byStep.values()].sort((a, b) => a.stepNumber - b.stepNumber);
+  const { data: items } = await supabasePublic
+    .from("how_it_works_step_items")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+
+  return steps.map((s: any) => ({
+    title: s.title,
+    slug: s.slug,
+    navLabel: s.nav_label || undefined,
+    icon: s.icon || undefined,
+    pullQuote: s.pull_quote || undefined,
+    items: (items || [])
+      .filter((i: any) => i.step_id === s.id)
+      .map((i: any) => ({
+        heading: i.heading,
+        body: i.body ?? "",
+        image: i.image || undefined,
+        ctaLabel: i.cta_label || undefined,
+        ctaUrl: i.cta_url || undefined,
+      })),
+  }));
 });
 
-export const getRoleCards = cache(async (): Promise<RoleCard[]> => {
+export const getHowItWorksTeamRoles = cache(async (): Promise<HowItWorksTeamRole[]> => {
   if (!supabasePublic) return fbRoles;
   const { data } = await supabasePublic
-    .from("role_cards")
+    .from("how_it_works_team_roles")
     .select("*")
+    .eq("is_active", true)
     .order("sort_order", { ascending: true });
   if (!data || !data.length) return fbRoles;
-  return data.map((r: any) => ({ title: r.title, description: r.description ?? "" }));
+  return data.map((r: any) => ({
+    title: r.title,
+    description: r.description ?? "",
+    icon: r.icon || undefined,
+    image: r.image || undefined,
+  }));
 });

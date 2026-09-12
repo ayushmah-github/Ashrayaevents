@@ -236,92 +236,125 @@ export const destinations: Destination[] = [
   { name: "Thailand", region: "International" },
 ];
 
-export type ProcessPhase = {
-  stepNumber: number;
-  stepTitle: string;
-  phaseTitle: string;
-  phaseDescription: string;
+export type HowItWorksStepItem = {
+  heading: string;
+  body: string;
+  image?: string;
   ctaLabel?: string;
+  ctaUrl?: string;
 };
 
-// The 4-step planning journey shown on /how-it-works.
-export const processPhases: ProcessPhase[] = [
+export type HowItWorksStep = {
+  title: string;
+  slug: string;
+  navLabel?: string;
+  icon?: string;
+  pullQuote?: string;
+  items: HowItWorksStepItem[];
+};
+
+// The 4-step planning journey shown on /how-it-works. Seed copy supplied
+// verbatim by the client's reference brief.
+export const howItWorksSteps: HowItWorksStep[] = [
   {
-    stepNumber: 1,
-    stepTitle: "The First Conversation",
-    phaseTitle: "We Learn About Your Celebration",
-    phaseDescription:
-      "Once you reach out, we take time to understand your dates, guest count, city or destination, budget and the overall feel you're imagining — so our very first call is genuinely useful, not generic.",
-    ctaLabel: "Share Your Details",
+    title: "Introductory Call",
+    slug: "introductory-call",
+    icon: "compass",
+    items: [
+      {
+        heading: "We Review Your Enquiry",
+        body: "Once you reach out to us, our team carefully reviews and evaluates every detail of your enquiry, including your wedding dates, preferred destination, guest count, budget, and overall vision. This helps us understand your requirements, assess the scope of your celebration, and prepare for a personalized introductory call where we can offer the right guidance and planning approach for your wedding.",
+        image:
+          "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop",
+        ctaLabel: "Fill Your Form",
+      },
+      {
+        heading: "Discovery Consultation",
+        body: "We schedule a personalized consultation to understand your vision, preferences, and unique requirements in detail. This is an opportunity for you to share your ideas, expectations, and priorities while we answer your questions, offer expert guidance, and discuss how we can bring your dream celebration to life with a planning approach tailored specifically to you.",
+        image:
+          "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&q=70&auto=format&fit=crop",
+      },
+    ],
   },
   {
-    stepNumber: 1,
-    stepTitle: "The First Conversation",
-    phaseTitle: "A Personal Discovery Call",
-    phaseDescription:
-      "We set up a relaxed conversation to hear your vision in your own words, answer your questions honestly, and share how we'd approach a celebration like yours.",
+    title: "Onboarding & Planning",
+    slug: "onboarding-planning",
+    icon: "wallet",
+    items: [
+      {
+        heading: "Personalized Proposal",
+        body: "Based on our detailed discussion, we create a customized proposal tailored to your wedding requirements, preferences, and vision. From venue recommendations and planning strategy to estimated investment and curated service options, we suggest every element thoughtfully to match your expectations and create a seamless celebration experience.",
+        image:
+          "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1000&q=70&auto=format&fit=crop",
+      },
+      {
+        heading: "Confirmation & Onboarding",
+        body: "Once the contract is signed and your wedding dates are officially confirmed, we begin the onboarding process by reserving your dates, completing the necessary formalities, and introducing you to your dedicated wedding planning team. From this stage onwards, our team works closely with you to ensure a smooth, organized, and seamless planning journey.",
+        image:
+          "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=1000&q=70&auto=format&fit=crop",
+      },
+    ],
   },
   {
-    stepNumber: 2,
-    stepTitle: "Proposal & Onboarding",
-    phaseTitle: "A Proposal Built Around You",
-    phaseDescription:
-      "You receive a tailored proposal — venue ideas, a planning approach and an honest budget outline — shaped entirely around what you told us, not a one-size-fits-all package.",
+    title: "Design & Execution",
+    slug: "design-execution",
+    icon: "sparkles",
+    pullQuote: "From vision to reality. Every detail is now in expert hands.",
+    items: [
+      {
+        heading: "Vision & Design",
+        body: "Together, we bring your wedding vision to life by finalizing the theme, design concepts, décor elements, guest experience, entertainment, hospitality, and every creative detail. Our team thoughtfully curates each aspect to reflect your personality, preferences, and the overall essence of your celebration.",
+        image:
+          "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=1000&q=70&auto=format&fit=crop",
+      },
+      {
+        heading: "Planning & Coordination",
+        body: "Our team meticulously manages every aspect of your wedding journey, including timelines, vendor coordination, logistics, permissions, guest management, and all operational details. With seamless planning and constant coordination, we ensure every element comes together perfectly for a stress-free and unforgettable celebration.",
+        image:
+          "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1000&q=70&auto=format&fit=crop",
+      },
+    ],
   },
   {
-    stepNumber: 2,
-    stepTitle: "Proposal & Onboarding",
-    phaseTitle: "Locking In Your Dates",
-    phaseDescription:
-      "Once you're ready to move forward, we confirm your dates, handle the paperwork, and introduce you to the team who will be with you through the whole journey.",
-  },
-  {
-    stepNumber: 3,
-    stepTitle: "Design & Planning",
-    phaseTitle: "Bringing the Vision to Life",
-    phaseDescription:
-      "Together we finalise the theme, décor, guest experience and every creative detail — crafted to reflect your story, not a template.",
-  },
-  {
-    stepNumber: 3,
-    stepTitle: "Design & Planning",
-    phaseTitle: "Coordination Behind the Scenes",
-    phaseDescription:
-      "We manage timelines, vendors, logistics and every moving part so the lead-up to your celebration stays calm and organised.",
-  },
-  {
-    stepNumber: 4,
-    stepTitle: "Your Celebration",
-    phaseTitle: "Flawless on the Day",
-    phaseDescription:
-      "From the first moment to the last, our team handles every detail on the ground so you and your guests are fully present in the celebration.",
-  },
-  {
-    stepNumber: 4,
-    stepTitle: "Your Celebration",
-    phaseTitle: "After the Celebration",
-    phaseDescription:
-      "We wrap up final details with vendors and venues after the event, so the only thing you carry forward are the memories.",
+    title: "Wedding Day",
+    slug: "wedding-day",
+    icon: "star",
+    items: [
+      {
+        heading: "Seamless Execution",
+        body: "From the first ceremony to the final farewell, our team takes care of every detail with precision and dedication. We manage on-ground coordination, vendor execution, guest experience, and every moving element behind the scenes, allowing you to be fully present and cherish every moment of your celebration.",
+        image:
+          "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1000&q=70&auto=format&fit=crop",
+      },
+      {
+        heading: "Post-Wedding Wrap-up",
+        body: "We take care of the final details after your celebration, including vendor closures, final coordination, and necessary handovers. Our team ensures a smooth conclusion to your wedding journey, allowing you to relive your special moments while we handle the details behind the scenes.",
+        image:
+          "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1000&q=70&auto=format&fit=crop",
+      },
+    ],
   },
 ];
 
-export type RoleCard = { title: string; description: string };
-// [PLACEHOLDER] the real roles/people a couple works with.
-export const roleCards: RoleCard[] = [
+export type HowItWorksTeamRole = { title: string; description: string; icon?: string; image?: string };
+export const howItWorksTeamRoles: HowItWorksTeamRole[] = [
   {
     title: "Wedding Consultant",
+    icon: "compass",
     description:
-      "Your first point of contact — walks you through our process, discusses your vision and puts together your initial proposal.",
+      "Your first point of contact, helping you understand our planning process, discussing your vision, recommending venues, and creating a tailored proposal that reflects your celebration.",
   },
   {
     title: "Dedicated Wedding Planner",
+    icon: "heart",
     description:
-      "Your day-to-day planning partner, overseeing design, timelines, vendors and guest experience from start to finish.",
+      "Your personal planning expert who oversees every aspect of your wedding—from design and timelines to vendor coordination, guest hospitality, and flawless execution.",
   },
   {
-    title: "Client Relations & Coordination",
+    title: "Client Relations & Finance",
+    icon: "wallet",
     description:
-      "Keeps contracts, payments and documentation transparent and organised, so nothing falls through the cracks.",
+      "Your dedicated support for contracts, payment schedules, documentation, and seamless coordination, ensuring every administrative detail is handled with complete transparency.",
   },
 ];
 

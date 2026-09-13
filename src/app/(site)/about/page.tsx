@@ -4,7 +4,7 @@ import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import Breadcrumb from "@/components/shared/Breadcrumb";
-import PhotoGallery from "@/components/sections/PhotoGallery";
+import ScatteredCollage from "@/components/sections/ScatteredCollage";
 import InstagramStrip from "@/components/sections/InstagramStrip";
 import InquiryDrawer from "@/components/shared/InquiryDrawer";
 import { collageImages as fallbackGallery } from "@/lib/content";
@@ -14,11 +14,23 @@ const DEFAULT_DESCRIPTION =
   "Meet Ashraya Events — a wedding & event planning studio crafting warm, elegant, unforgettable celebrations.";
 const DEFAULT_INTRO =
   "We like being upfront about how we work — so before anything else, you can see how we think, how we plan, and decide for yourself if we're the right fit for your celebration.";
+const DEFAULT_FOUNDER_TEASER =
+  "The vision behind Ashraya Events — discover their journey, planning philosophy, and the experience they bring to every celebration.";
 
 const DEFAULT_FOUNDER_IMAGE =
   "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70&auto=format&fit=crop";
 const DEFAULT_JOURNEY_IMAGE =
   "https://images.unsplash.com/photo-1519741497674-611481863552?w=1000&q=70&auto=format&fit=crop";
+
+/** Short teaser excerpt for the founder link-block up top (the full bio still runs in full further down the page). */
+function excerpt(text: string, max = 160) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  return cut.slice(0, cut.lastIndexOf(" ")) + "…";
+}
+
+const CTA_LINK_CLASS =
+  "mt-5 inline-block border-b-2 border-maroon pb-1 text-xs font-semibold uppercase tracking-widest text-maroon transition-colors hover:border-gold-dark hover:text-gold-dark";
 
 export const dynamic = "force-dynamic";
 
@@ -52,39 +64,57 @@ export default async function AboutPage() {
       ? [hero.mediaUrl]
       : fallbackGallery.slice(0, 6);
 
+  const founderName = founder.title || "Our Founder";
+  const founderTeaser = founder.bodyMarkdown ? excerpt(founder.bodyMarkdown) : DEFAULT_FOUNDER_TEASER;
+
   return (
     <>
-      {/* Hero: a photo gallery/banner up top, then a plain "About Us" intro
-          with the primary CTA — matches the reference site's layout of a
-          photo band followed by a text-only section, rather than one big
-          image with the headline overlaid on it. */}
+      {/* Hero: a scattered photo collage on the left, breadcrumb + a stacked
+          "About Us" / "Meet [Founder]" text column on the right, each ending
+          in an underlined text-link CTA — matches the reference site's
+          layout exactly, instead of a full-width banner + separate sections. */}
       {hero.isPublished && (
-        <>
-          <PhotoGallery images={galleryImages} />
+        <Section tone="cream">
           <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "About" }]} />
 
-          <Section tone="cream" className="text-center">
-            <Reveal className="mx-auto max-w-2xl">
-              <h1 className="text-4xl text-maroon sm:text-5xl text-balance">
-                {hero.title || "About Us"}
-              </h1>
-              <p className="mx-auto mt-5 max-w-xl text-lg text-ink-soft">
-                {hero.subtitle || DEFAULT_INTRO}
-              </p>
+          <div className="mt-10 grid gap-12 lg:grid-cols-2 lg:items-start">
+            <Reveal>
+              <ScatteredCollage images={galleryImages} />
             </Reveal>
-            <div className="mt-8">
-              <InquiryDrawer
-                triggerLabel="Inquire Now"
-                triggerClassName="inline-flex items-center gap-2 rounded-full bg-maroon px-8 py-3.5 text-xs font-semibold uppercase tracking-widest text-cream transition-transform hover:-translate-y-0.5 hover:bg-maroon-dark"
-              />
+
+            <div className="space-y-10 border-l-2 border-maroon/15 pl-6 sm:pl-8 lg:pt-6">
+              <Reveal delayIndex={1}>
+                <h1 className="text-sm font-semibold uppercase tracking-[0.2em] text-maroon">
+                  {hero.title || "About Us"}
+                </h1>
+                <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
+                  {hero.subtitle || DEFAULT_INTRO}
+                </p>
+                <InquiryDrawer triggerLabel="Inquire Now" triggerClassName={CTA_LINK_CLASS} />
+              </Reveal>
+
+              {founder.isPublished && (
+                <>
+                  <div className="h-px bg-maroon/10" />
+                  <Reveal delayIndex={2}>
+                    <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-maroon">
+                      Meet {founderName}
+                    </h2>
+                    <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{founderTeaser}</p>
+                    <a href="#founder-story" className={CTA_LINK_CLASS}>
+                      Read {founderName}&rsquo;s Story
+                    </a>
+                  </Reveal>
+                </>
+              )}
             </div>
-          </Section>
-        </>
+          </div>
+        </Section>
       )}
 
-      {/* Founder Spotlight */}
+      {/* Founder Spotlight — the full bio; anchored for the "Read …'s Story" link above */}
       {founder.isPublished && (
-        <Section tone="cream">
+        <Section id="founder-story" tone="cream" className="scroll-mt-28">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">

@@ -358,7 +358,8 @@ export const howItWorksTeamRoles: HowItWorksTeamRole[] = [
   },
 ];
 
-// [PLACEHOLDER] real founder / team info
+// [PLACEHOLDER] real team info — fallback for the (currently unused) Home
+// page team_members table / TeamShowcase component.
 export const team = [
   {
     name: "[PLACEHOLDER] Founder Name",
@@ -371,6 +372,25 @@ export const team = [
     name: "[PLACEHOLDER] Team Member",
     role: "Creative Director",
     bio: "[PLACEHOLDER] Short bio for the design/creative lead.",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=70&auto=format&fit=crop",
+  },
+];
+
+// [PLACEHOLDER] real founder info — edit from /admin/about-editor
+export type Founder = { name: string; role?: string; bio?: string; image?: string };
+export const founders: Founder[] = [
+  {
+    name: "[PLACEHOLDER] Founder Name",
+    role: "Founder & Creative Director",
+    bio: "[PLACEHOLDER] The founder's story — what led them to start Ashraya Events, their planning philosophy, and what they bring to every celebration.",
+    image:
+      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=70&auto=format&fit=crop",
+  },
+  {
+    name: "[PLACEHOLDER] Co-Founder Name",
+    role: "Co-Founder & Client Experience",
+    bio: "[PLACEHOLDER] The co-founder's story — their role in every celebration, and what they bring to the Ashraya Events team.",
     image:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=70&auto=format&fit=crop",
   },

@@ -10,7 +10,9 @@ import {
   aboutStats as fbStats,
   recognitions as fbRecognitions,
   destinations as fbDestinations,
+  founders as fbFounders,
   type Destination,
+  type Founder,
 } from "@/lib/content";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -109,5 +111,22 @@ export const getDestinations = cache(async (): Promise<Destination[]> => {
   return data.map((r: any) => ({
     name: r.name,
     region: r.region === "International" ? "International" : "Domestic",
+  }));
+});
+
+export type { Founder };
+export const getFounders = cache(async (): Promise<Founder[]> => {
+  if (!supabasePublic) return fbFounders;
+  const { data } = await supabasePublic
+    .from("founders")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+  if (!data || !data.length) return fbFounders;
+  return data.map((r: any) => ({
+    name: r.name,
+    role: r.role || undefined,
+    bio: r.bio || undefined,
+    image: r.image || undefined,
   }));
 });

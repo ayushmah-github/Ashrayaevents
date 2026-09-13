@@ -269,6 +269,23 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "sort_order", label: "Order", type: "number" },
     ],
   },
+  founders: {
+    table: "founders",
+    label: "About · Founders",
+    singular: "Founder",
+    titleField: "name",
+    subtitleField: "role",
+    imageField: "image",
+    hideFromNav: true,
+    fields: [
+      { name: "name", label: "Name", type: "text" },
+      { name: "role", label: "Role / title (e.g. \"Co-Founder & Client Experience\")", type: "text" },
+      { name: "image", label: "Photo", type: "image" },
+      { name: "bio", label: "Bio", type: "textarea" },
+      { name: "is_active", label: "Show on the page", type: "boolean" },
+      { name: "sort_order", label: "Order", type: "number" },
+    ],
+  },
   about_stats: {
     table: "about_stats",
     label: "About · Stats",

@@ -8,7 +8,7 @@ import ScatteredCollage from "@/components/sections/ScatteredCollage";
 import InstagramStrip from "@/components/sections/InstagramStrip";
 import InquiryDrawer from "@/components/shared/InquiryDrawer";
 import { collageImages as fallbackGallery } from "@/lib/content";
-import { getPageContent, getRecognitions, getDestinations } from "@/lib/cms/about";
+import { getPageContent, getRecognitions, getDestinations, getFounders } from "@/lib/cms/about";
 
 const DEFAULT_DESCRIPTION =
   "Meet Ashraya Events — a wedding & event planning studio crafting warm, elegant, unforgettable celebrations.";
@@ -16,6 +16,8 @@ const DEFAULT_INTRO =
   "We like being upfront about how we work — so before anything else, you can see how we think, how we plan, and decide for yourself if we're the right fit for your celebration.";
 const DEFAULT_FOUNDER_TEASER =
   "The vision behind Ashraya Events — discover their journey, planning philosophy, and the experience they bring to every celebration.";
+const DEFAULT_FOUNDERS_TEASER =
+  "The vision behind Ashraya Events — discover their journeys, planning philosophy, and the experience they bring to every celebration.";
 
 const DEFAULT_FOUNDER_IMAGE =
   "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70&auto=format&fit=crop";
@@ -43,16 +45,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [hero, founder, approach, personal, journey, cta, recognitions, destinations] =
+  const [hero, approach, personal, journey, cta, recognitions, destinations, founders] =
     await Promise.all([
       getPageContent("about_hero"),
-      getPageContent("about_founder"),
       getPageContent("about_approach"),
       getPageContent("about_personal"),
       getPageContent("about_journey"),
       getPageContent("about_cta"),
       getRecognitions(),
       getDestinations(),
+      getFounders(),
     ]);
 
   const domestic = destinations.filter((d) => d.region === "Domestic");
@@ -64,8 +66,19 @@ export default async function AboutPage() {
       ? [hero.mediaUrl]
       : fallbackGallery.slice(0, 6);
 
-  const founderName = founder.title || "Our Founder";
-  const founderTeaser = founder.bodyMarkdown ? excerpt(founder.bodyMarkdown) : DEFAULT_FOUNDER_TEASER;
+  // Teaser copy for the hero link-block adapts to one founder vs several.
+  const isSingleFounder = founders.length === 1;
+  const founderTeaserHeading = isSingleFounder
+    ? `Meet ${founders[0].name}`
+    : founders.length > 1
+      ? `Meet ${founders.map((f) => f.name).join(" & ")}`
+      : "";
+  const founderTeaserBody = isSingleFounder
+    ? founders[0].bio
+      ? excerpt(founders[0].bio)
+      : DEFAULT_FOUNDER_TEASER
+    : DEFAULT_FOUNDERS_TEASER;
+  const founderTeaserCta = isSingleFounder ? `Read ${founders[0].name}’s Story` : "Read Their Stories";
 
   return (
     <>
@@ -93,16 +106,16 @@ export default async function AboutPage() {
                 <InquiryDrawer triggerLabel="Inquire Now" triggerClassName={CTA_LINK_CLASS} />
               </Reveal>
 
-              {founder.isPublished && (
+              {founders.length > 0 && (
                 <>
                   <div className="h-px bg-maroon/10" />
                   <Reveal delayIndex={2}>
                     <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-maroon">
-                      Meet {founderName}
+                      {founderTeaserHeading}
                     </h2>
-                    <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{founderTeaser}</p>
+                    <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{founderTeaserBody}</p>
                     <a href="#founder-story" className={CTA_LINK_CLASS}>
-                      Read {founderName}&rsquo;s Story
+                      {founderTeaserCta}
                     </a>
                   </Reveal>
                 </>
@@ -112,36 +125,48 @@ export default async function AboutPage() {
         </Section>
       )}
 
-      {/* Founder Spotlight — the full bio; anchored for the "Read …'s Story" link above */}
-      {founder.isPublished && (
+      {/* Founder Spotlight — full bio for each founder (Ashraya has two);
+          anchored for the "Read …'s Story" link above. Alternates the photo
+          side per founder, same pattern as Our Journey below. */}
+      {founders.length > 0 && (
         <Section id="founder-story" tone="cream" className="scroll-mt-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <Reveal>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
-                <Image
-                  src={founder.mediaUrl || DEFAULT_FOUNDER_IMAGE}
-                  alt={founder.title || "Founder of Ashraya Events"}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow text-gold-dark">{founders.length > 1 ? "Meet the team" : "Meet the founder"}</p>
+            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
+              {founders.length > 1 ? "The People Behind Ashraya" : founders[0].name}
+            </h2>
+          </Reveal>
+
+          <div className="mt-16 space-y-20">
+            {founders.map((f, i) => (
+              <div key={`${f.name}-${i}`} className="grid items-center gap-12 lg:grid-cols-2">
+                <Reveal className={i % 2 === 1 ? "lg:order-2" : ""}>
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-xl2)] shadow-[var(--shadow-soft)]">
+                    <Image
+                      src={f.image || DEFAULT_FOUNDER_IMAGE}
+                      alt={f.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
+                </Reveal>
+                <Reveal delayIndex={1} className={i % 2 === 1 ? "lg:order-1" : ""}>
+                  {founders.length > 1 && (
+                    <h3 className="text-3xl text-maroon sm:text-4xl text-balance">{f.name}</h3>
+                  )}
+                  {f.role && (
+                    <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-gold-dark">
+                      {f.role}
+                    </p>
+                  )}
+                  <div className="mt-6 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
+                    {f.bio ||
+                      "[PLACEHOLDER] The founder's story — what led them to start Ashraya Events, their planning philosophy, and what they bring to every celebration."}
+                  </div>
+                </Reveal>
               </div>
-            </Reveal>
-            <Reveal delayIndex={1}>
-              <p className="eyebrow text-gold-dark">Meet the founder</p>
-              <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
-                {founder.title || "[PLACEHOLDER] Founder Name"}
-              </h2>
-              {founder.subtitle && (
-                <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-gold-dark">
-                  {founder.subtitle}
-                </p>
-              )}
-              <div className="mt-6 whitespace-pre-line text-lg leading-relaxed text-ink-soft">
-                {founder.bodyMarkdown ||
-                  "[PLACEHOLDER] The founder's story — what led them to start Ashraya Events, their planning philosophy, and what they bring to every celebration."}
-              </div>
-            </Reveal>
+            ))}
           </div>
         </Section>
       )}

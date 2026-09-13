@@ -352,6 +352,21 @@ alter table page_content add column if not exists cta_url   text;
 -- multi-photo banner at the top of /about), reusable by any future section:
 alter table page_content add column if not exists gallery_images text[];
 
+-- Founders — a list (Ashraya has two), replacing the old single
+-- about_founder page_content row. Rendered on /about in the order given.
+create table if not exists founders (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  role text,                       -- e.g. "Co-Founder & Client Experience"
+  bio text,
+  image text,
+  is_active boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+alter table founders enable row level security;
+drop policy if exists "public read founders" on founders;
+create policy "public read founders" on founders for select using (true);
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

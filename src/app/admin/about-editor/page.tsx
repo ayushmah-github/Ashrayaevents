@@ -39,16 +39,8 @@ export default function AboutEditorPage() {
           ]}
         />
 
-        <AboutSectionEditor
-          sectionKey="about_founder"
-          title="Founder Spotlight"
-          fields={[
-            { name: "title", label: "Founder name" },
-            { name: "subtitle", label: "Role / one-line tagline" },
-            { name: "media_url", label: "Founder photo", type: "image" },
-            { name: "body_markdown", label: "Bio", type: "textarea" },
-          ]}
-        />
+        <Divider label="Founders (add one row per founder — Ashraya has two)" />
+        <ResourceManager resource={RESOURCES.founders} />
 
         <AboutSectionEditor
           sectionKey="about_approach"

@@ -347,6 +347,11 @@ end $$;
 alter table page_content add column if not exists cta_label text;
 alter table page_content add column if not exists cta_url   text;
 
+-- Optional photo-gallery array on the shared page_content singleton-by-key
+-- table — used by the About page's hero gallery (matches Shaandaar's
+-- multi-photo banner at the top of /about), reusable by any future section:
+alter table page_content add column if not exists gallery_images text[];
+
 -- ---- Media storage bucket ---------------------------------------------------
 insert into storage.buckets (id, name, public)
 values ('media', 'media', true)

@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import PageHeader from "@/components/layout/PageHeader";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
+import Breadcrumb from "@/components/shared/Breadcrumb";
+import PhotoGallery from "@/components/sections/PhotoGallery";
 import InstagramStrip from "@/components/sections/InstagramStrip";
 import InquiryDrawer from "@/components/shared/InquiryDrawer";
-import { getPageBanner } from "@/lib/cms/home";
+import { collageImages as fallbackGallery } from "@/lib/content";
 import { getPageContent, getRecognitions, getDestinations } from "@/lib/cms/about";
 
 const DEFAULT_DESCRIPTION =
   "Meet Ashraya Events — a wedding & event planning studio crafting warm, elegant, unforgettable celebrations.";
+const DEFAULT_INTRO =
+  "We like being upfront about how we work — so before anything else, you can see how we think, how we plan, and decide for yourself if we're the right fit for your celebration.";
 
 const DEFAULT_FOUNDER_IMAGE =
   "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=70&auto=format&fit=crop";
@@ -28,9 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [banner, hero, founder, approach, personal, journey, cta, recognitions, destinations] =
+  const [hero, founder, approach, personal, journey, cta, recognitions, destinations] =
     await Promise.all([
-      getPageBanner("About"),
       getPageContent("about_hero"),
       getPageContent("about_founder"),
       getPageContent("about_approach"),
@@ -44,27 +46,39 @@ export default async function AboutPage() {
   const domestic = destinations.filter((d) => d.region === "Domestic");
   const international = destinations.filter((d) => d.region === "International");
 
+  const galleryImages = hero.galleryImages?.length
+    ? hero.galleryImages
+    : hero.mediaUrl
+      ? [hero.mediaUrl]
+      : fallbackGallery.slice(0, 6);
+
   return (
     <>
-      {/* Hero */}
+      {/* Hero: a photo gallery/banner up top, then a plain "About Us" intro
+          with the primary CTA — matches the reference site's layout of a
+          photo band followed by a text-only section, rather than one big
+          image with the headline overlaid on it. */}
       {hero.isPublished && (
         <>
-          <PageHeader
-            eyebrow="Our story"
-            title={hero.title || banner?.title || "About Us"}
-            intro={
-              hero.subtitle ||
-              banner?.subtitle ||
-              "Take a moment to learn who we are, how we think, and why couples trust us with their biggest day."
-            }
-            image={hero.mediaUrl || banner?.image}
-          />
-          <div className="bg-maroon pb-14 pt-2 text-center">
-            <InquiryDrawer
-              triggerLabel="Inquire Now"
-              triggerClassName="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-sm font-semibold text-maroon-dark transition-transform hover:-translate-y-0.5 hover:bg-gold-dark hover:text-cream"
-            />
-          </div>
+          <PhotoGallery images={galleryImages} />
+          <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "About" }]} />
+
+          <Section tone="cream" className="text-center">
+            <Reveal className="mx-auto max-w-2xl">
+              <h1 className="text-4xl text-maroon sm:text-5xl text-balance">
+                {hero.title || "About Us"}
+              </h1>
+              <p className="mx-auto mt-5 max-w-xl text-lg text-ink-soft">
+                {hero.subtitle || DEFAULT_INTRO}
+              </p>
+            </Reveal>
+            <div className="mt-8">
+              <InquiryDrawer
+                triggerLabel="Inquire Now"
+                triggerClassName="inline-flex items-center gap-2 rounded-full bg-maroon px-8 py-3.5 text-xs font-semibold uppercase tracking-widest text-cream transition-transform hover:-translate-y-0.5 hover:bg-maroon-dark"
+              />
+            </div>
+          </Section>
         </>
       )}
 

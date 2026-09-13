@@ -20,6 +20,7 @@ export type PageSection = {
   subtitle?: string;
   bodyMarkdown?: string;
   mediaUrl?: string;
+  galleryImages?: string[];
   ctaLabel?: string;
   ctaUrl?: string;
   seoTitle?: string;
@@ -48,6 +49,7 @@ export const getPageContent = cache(
       subtitle: data.subtitle || undefined,
       bodyMarkdown: data.body_markdown || undefined,
       mediaUrl: data.media_url || undefined,
+      galleryImages: data.gallery_images?.length ? data.gallery_images : undefined,
       ctaLabel: data.cta_label || undefined,
       ctaUrl: data.cta_url || undefined,
       seoTitle: data.seo_title || undefined,

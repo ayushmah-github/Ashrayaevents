@@ -27,9 +27,15 @@ export default function AboutEditorPage() {
           title="Hero"
           showSeo
           fields={[
-            { name: "title", label: "Headline" },
-            { name: "subtitle", label: "Subheadline", type: "textarea" },
-            { name: "media_url", label: "Background image", type: "image" },
+            { name: "title", label: "Headline (e.g. \"About Us\")" },
+            { name: "subtitle", label: "Intro paragraph (shown under the headline)", type: "textarea" },
+            {
+              name: "gallery_images",
+              label: "Hero gallery photos (grid at the very top of the page)",
+              type: "imagelist",
+              help: "Add several photos to show a photo grid at the top, like Shaandaar's — one photo shows as a single wide banner instead. Leave empty to use the background image below.",
+            },
+            { name: "media_url", label: "Fallback banner image (used only if the gallery above is empty)", type: "image" },
           ]}
         />
 

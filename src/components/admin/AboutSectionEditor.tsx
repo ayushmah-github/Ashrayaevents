@@ -8,6 +8,7 @@ type SectionData = {
   subtitle: string;
   body_markdown: string;
   media_url: string;
+  gallery_images: string[];
   cta_label: string;
   cta_url: string;
   seo_title: string;
@@ -20,6 +21,7 @@ const EMPTY: SectionData = {
   subtitle: "",
   body_markdown: "",
   media_url: "",
+  gallery_images: [],
   cta_label: "",
   cta_url: "",
   seo_title: "",
@@ -40,7 +42,12 @@ export default function AboutSectionEditor({
 }: {
   sectionKey: string;
   title: string;
-  fields: { name: keyof SectionData; label: string; type?: "text" | "textarea" | "image"; help?: string }[];
+  fields: {
+    name: keyof SectionData;
+    label: string;
+    type?: "text" | "textarea" | "image" | "imagelist";
+    help?: string;
+  }[];
   showSeo?: boolean;
 }) {
   const [data, setData] = useState<SectionData>(EMPTY);
@@ -58,6 +65,7 @@ export default function AboutSectionEditor({
             subtitle: res.data.subtitle || "",
             body_markdown: res.data.body_markdown || "",
             media_url: res.data.media_url || "",
+            gallery_images: Array.isArray(res.data.gallery_images) ? res.data.gallery_images : [],
             cta_label: res.data.cta_label || "",
             cta_url: res.data.cta_url || "",
             seo_title: res.data.seo_title || "",
@@ -119,6 +127,15 @@ export default function AboutSectionEditor({
                 value={data[f.name] as string}
                 onChange={(v) => setData((d) => ({ ...d, [f.name]: v }))}
               />
+            ) : f.type === "imagelist" ? (
+              <>
+                <label className="mb-1.5 block text-sm font-medium text-ink">{f.label}</label>
+                <GalleryInput
+                  value={data[f.name] as string[]}
+                  onChange={(v) => setData((d) => ({ ...d, [f.name]: v }))}
+                />
+                {f.help && <p className="mt-1 text-xs text-ink-soft">{f.help}</p>}
+              </>
             ) : (
               <>
                 <label className="mb-1.5 block text-sm font-medium text-ink">{f.label}</label>
@@ -180,6 +197,40 @@ export default function AboutSectionEditor({
         </button>
         {saved && <span className="text-sm text-green-700">Saved ✓</span>}
       </div>
+    </div>
+  );
+}
+
+/** Ordered list of photos for a gallery-style field (e.g. the About hero grid). */
+function GalleryInput({ value, onChange }: { value?: string[]; onChange: (v: string[]) => void }) {
+  const items = Array.isArray(value) ? value : [];
+  return (
+    <div className="space-y-3">
+      {items.map((url, i) => (
+        <div key={i} className="rounded-xl border border-maroon/10 p-3">
+          <ImageUploadField
+            label={`Photo ${i + 1}`}
+            value={url}
+            onChange={(v) => {
+              const next = [...items];
+              next[i] = v;
+              onChange(next);
+            }}
+          />
+          <button
+            onClick={() => onChange(items.filter((_, j) => j !== i))}
+            className="mt-2 text-sm text-red-600 hover:underline"
+          >
+            Remove this photo
+          </button>
+        </div>
+      ))}
+      <button
+        onClick={() => onChange([...items, ""])}
+        className="text-sm font-medium text-gold-dark hover:text-maroon"
+      >
+        + Add photo
+      </button>
     </div>
   );
 }

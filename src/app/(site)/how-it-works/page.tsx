@@ -58,8 +58,8 @@ export default async function HowItWorksPage() {
       {intro.isPublished && (
         <Section tone="cream" className="text-center">
           <Reveal className="mx-auto max-w-2xl">
-            <div className="inline-flex items-start gap-4 text-left">
-              <span className="mt-1 h-full w-1 flex-none rounded-full bg-gold" aria-hidden />
+            <div className="inline-flex items-stretch gap-4 text-left">
+              <span className="w-1 flex-none self-stretch rounded-full bg-gold" aria-hidden />
               <h1 className="text-4xl text-maroon sm:text-5xl text-balance">
                 {intro.title || "Your Dream Wedding in 4 Simple Steps"}
               </h1>

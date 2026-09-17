@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { navLinks, site } from "@/lib/site";
 import { getServices } from "@/lib/cms/content";
+import { getDestinationPages } from "@/lib/cms/destination-pages";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/layout/Logo";
 
 export default async function Footer() {
   const year = new Date().getFullYear();
-  const services = await getServices();
+  const [services, cityPages] = await Promise.all([getServices(), getDestinationPages()]);
+  const domesticPages = cityPages.filter((p) => p.region !== "International");
+  const internationalPages = cityPages.filter((p) => p.region === "International");
   return (
     <footer className="bg-maroon-dark text-cream/80">
       <Container className="py-16" size="wide">
@@ -80,6 +83,18 @@ export default async function Footer() {
           </div>
         </div>
 
+        {/* City / destination landing pages */}
+        {(domesticPages.length > 0 || internationalPages.length > 0) && (
+          <div className="mt-12 grid gap-10 border-t border-cream/10 pt-10 sm:grid-cols-2">
+            {domesticPages.length > 0 && (
+              <CityLinks title="Wedding planning in India" pages={domesticPages} />
+            )}
+            {internationalPages.length > 0 && (
+              <CityLinks title="International weddings" pages={internationalPages} />
+            )}
+          </div>
+        )}
+
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 sm:flex-row">
           <p>
             © {year} {site.name}. All rights reserved.
@@ -88,6 +103,29 @@ export default async function Footer() {
         </div>
       </Container>
     </footer>
+  );
+}
+
+function CityLinks({
+  title,
+  pages,
+}: {
+  title: string;
+  pages: { slug: string; city: string }[];
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold uppercase tracking-widest text-gold-light">{title}</h3>
+      <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2.5 text-sm">
+        {pages.map((p) => (
+          <li key={p.slug}>
+            <Link href={`/${p.slug}`} className="transition-colors hover:text-gold">
+              {p.city}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

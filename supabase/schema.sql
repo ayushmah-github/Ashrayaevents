@@ -352,6 +352,65 @@ alter table page_content add column if not exists cta_url   text;
 -- multi-photo banner at the top of /about), reusable by any future section:
 alter table page_content add column if not exists gallery_images text[];
 
+-- ===========================================================================
+-- Destination / city landing pages (e.g. /wedding-planner-in-delhi-ncr).
+-- One row per city, with repeatable content blocks and FAQs beneath it.
+-- ===========================================================================
+create table if not exists destination_pages (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,       -- full URL slug, e.g. "wedding-planner-in-delhi-ncr"
+  city text not null,              -- display name, e.g. "Delhi NCR"
+  region text default 'Domestic',  -- Domestic | International (groups the footer links)
+  hero_title text,
+  hero_body text,
+  hero_image text,
+  gallery_images text[],           -- photo strip shown mid-page
+  office_name text,
+  office_address text,
+  office_phone text,
+  seo_title text,
+  seo_description text,
+  is_published boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+
+create table if not exists destination_page_blocks (
+  id uuid primary key default gen_random_uuid(),
+  page_id uuid not null references destination_pages(id) on delete cascade,
+  heading text,
+  body text,
+  bullets text,                    -- one bullet per line (blank = no list)
+  image text,
+  layout text default 'text',      -- text | image-left | image-right | bullets | highlight
+  is_active boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create index if not exists destination_page_blocks_page_id_idx on destination_page_blocks(page_id);
+
+create table if not exists destination_page_faqs (
+  id uuid primary key default gen_random_uuid(),
+  page_id uuid not null references destination_pages(id) on delete cascade,
+  question text not null,
+  answer text,
+  is_active boolean default true,
+  sort_order int default 0, created_at timestamptz default now()
+);
+create index if not exists destination_page_faqs_page_id_idx on destination_page_faqs(page_id);
+
+alter table destination_pages        enable row level security;
+alter table destination_page_blocks  enable row level security;
+alter table destination_page_faqs    enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['destination_pages','destination_page_blocks','destination_page_faqs']
+  loop
+    execute format('drop policy if exists "public read %1$s" on %1$I;', t);
+    execute format('create policy "public read %1$s" on %1$I for select using (true);', t);
+  end loop;
+end $$;
+
 -- Founders — a list (Ashraya has two), replacing the old single
 -- about_founder page_content row. Rendered on /about in the order given.
 create table if not exists founders (

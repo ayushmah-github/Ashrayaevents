@@ -517,3 +517,197 @@ export const inspirationTabs: InspirationTab[] = [
     ],
   },
 ];
+
+/* ---------------------------------------------------------------------------
+ * Destination / city landing pages (e.g. /wedding-planner-in-delhi-ncr).
+ * Fallback seed — the client edits these from /admin/destination-pages-editor.
+ * ------------------------------------------------------------------------- */
+
+export type DestinationBlock = {
+  heading?: string;
+  body?: string;
+  bullets?: string;
+  image?: string;
+  layout?: "text" | "image-left" | "image-right" | "bullets" | "highlight";
+};
+
+export type DestinationFaq = { question: string; answer: string };
+
+export type DestinationPage = {
+  slug: string;
+  city: string;
+  region?: "Domestic" | "International";
+  heroTitle?: string;
+  heroBody?: string;
+  heroImage?: string;
+  galleryImages?: string[];
+  officeName?: string;
+  officeAddress?: string;
+  officePhone?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  blocks: DestinationBlock[];
+  faqs: DestinationFaq[];
+};
+
+export const destinationPages: DestinationPage[] = [
+  {
+    slug: "wedding-planner-in-delhi-ncr",
+    city: "Delhi NCR",
+    region: "Domestic",
+    heroTitle: "Wedding Planners in Delhi NCR — the celebration you've been imagining, handled end to end",
+    heroBody:
+      "Ashraya Events plans and runs weddings across Delhi, Gurugram, Noida, Faridabad and Ghaziabad — from the first venue visit to the last farewell, with every vendor, timeline and detail managed for you.",
+    heroImage:
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=70&auto=format&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=900&q=70&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=900&q=70&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=900&q=70&auto=format&fit=crop",
+    ],
+    officeName: "Ashraya Events — Wedding Planners in Delhi NCR",
+    officeAddress: "[PLACEHOLDER] Add your Delhi NCR office address from the admin panel.",
+    officePhone: "[PLACEHOLDER] +91 00000 00000",
+    seoTitle: "Wedding Planners in Delhi NCR | Ashraya Events",
+    seoDescription:
+      "Luxury and destination wedding planners in Delhi NCR. Venue sourcing, décor, catering, hospitality and full on-ground execution across Delhi, Gurugram, Noida and Faridabad.",
+    blocks: [
+      {
+        layout: "text",
+        heading: "Why hire a wedding planner in Delhi NCR?",
+        body: "An Indian wedding is rarely one event — it's three or four days of ceremonies, each with its own guest list, timings, décor and rituals. Doing that alongside a full-time job, in a city where the best venues are booked a year ahead, is genuinely difficult. A planner absorbs the coordination so the months before your wedding feel like anticipation rather than admin.",
+      },
+      {
+        layout: "bullets",
+        heading: "The Delhi NCR wedding season, in numbers",
+        body: "Planning around the season is half the battle. A few things worth knowing before you set a date:",
+        bullets:
+          "Peak season runs November through February, and the best venues fill up 8–12 months in advance\nWeekend dates in December go first — mid-week dates often cost meaningfully less\nVendor rates for décor, photography and makeup typically climb 40–50% during peak weeks\nGuest accommodation near popular venues gets scarce on auspicious dates\nBooking early is the single biggest lever you have on both cost and choice",
+      },
+      {
+        layout: "bullets",
+        heading: "What you get when you work with us",
+        bullets:
+          "You stay a guest at your own wedding — we carry the stress, not you\nOne point of contact instead of fifteen vendor WhatsApp groups\nHonest budget guidance, with money moved to what you'll actually remember\nDécor and design built around your story, not a package we reuse\nRituals run on time, because someone is watching the clock so your family doesn't have to",
+      },
+      {
+        layout: "image-right",
+        heading: "What makes planning in Delhi NCR different",
+        body: "Delhi NCR gives you extraordinary range — farmhouses in Chattarpur, five-star ballrooms in Aerocity, resort lawns in Gurugram, heritage courtyards in Old Delhi. That range is exactly why local knowledge matters. Distances between venues, traffic at ceremony hours, guest movement across multiple functions and society timing restrictions all shape what's actually possible on the day.",
+        bullets:
+          "Venue logistics across Delhi, Gurugram, Noida and Faridabad\nSeasonality, auspicious dates and how they move pricing\nLarge guest lists, traffic windows and multi-event schedules\nOn-ground relationships that get problems solved quietly",
+        image:
+          "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&q=70&auto=format&fit=crop",
+      },
+      {
+        layout: "bullets",
+        heading: "Wedding planning across Delhi NCR",
+        body: "We work across the whole region, and each part of it offers something different:",
+        bullets:
+          "Gurugram — luxury hotels, premium banquets and contemporary venues for polished, modern celebrations\nNoida — spacious banquet halls, farmhouses and newer event venues with easier access and parking\nFaridabad — resorts, open lawns and well-priced banquets for larger guest lists\nGhaziabad — banquet halls and party lawns that are well connected across the NCR\nCentral Delhi — heritage properties and five-star ballrooms for intimate, formal celebrations",
+      },
+      {
+        layout: "image-left",
+        heading: "Your dream wedding starts here",
+        body: "A wedding is not a single day — it's a story your family will retell for decades. No two couples are the same, so no two weddings we plan look the same either. We start by understanding what matters to you, then design everything around that: the venue, the palette, the flow of each function, the small details your closest guests will notice.",
+        image:
+          "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?w=1000&q=70&auto=format&fit=crop",
+      },
+      {
+        layout: "bullets",
+        heading: "How we work — simple, structured, calm",
+        body: "Planning should feel exciting, not overwhelming. Our process keeps you informed and involved without burying you in decisions:",
+        bullets:
+          "Understanding your vision — we learn your must-haves, your traditions and what you'd rather skip\nDesign & planning — theme, layout, vendor selection and budget, all mapped out with clear timelines\nExecution & management — on the days themselves, our team runs vendors, timings and logistics so you simply celebrate",
+      },
+      {
+        layout: "bullets",
+        heading: "Weddings for every style and scale",
+        body: "Whatever shape your celebration takes, the level of care stays the same:",
+        bullets:
+          "Traditional weddings with full ceremonial detail\nContemporary celebrations with modern design and styling\nMulti-day weddings with distinct events and looks\nDestination-style weddings in and around Delhi NCR\nIntimate gatherings where every guest is someone you love",
+      },
+      {
+        layout: "bullets",
+        heading: "Our complete wedding planning services in Delhi NCR",
+        body: "Take the whole thing off your plate, or just the parts you'd rather not handle:",
+        bullets:
+          "Concept, theme and overall design direction\nVenue scouting, site visits, negotiation and booking\nDécor, florals, lighting, stage and tablescapes\nCatering curation and menu tastings\nPhotography and videography coordination\nEntertainment — DJs, live bands and performers\nInvitations, hampers and guest communication\nGuest hospitality, travel and accommodation\nMehendi, haldi and sangeet planning\nDay-of logistics, timelines and on-ground management",
+      },
+      {
+        layout: "bullets",
+        heading: "Trending wedding themes in Delhi NCR",
+        body: "What couples in the region are asking us for right now:",
+        bullets:
+          "Softer palettes — blush, lavender and sage replacing the default red-and-gold\nMughal-inspired arches, draping and candlelit pathways, still as popular as ever\nGarden and daytime weddings with pastel florals and natural light\nRooftop and industrial-chic venues in Gurugram and Noida\nLocally grown flowers and lower-waste setups for eco-conscious couples",
+      },
+      {
+        layout: "highlight",
+        heading: "Start your planning early",
+        body: "The couples who get the venue they wanted, on the date they wanted, at a price that made sense, are almost always the ones who started early. If your wedding is in the next 8–18 months, now is the right time for a first conversation — even if nothing else is decided yet.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What does a wedding planner in Delhi NCR actually do?",
+        answer:
+          "We manage the celebration end to end — venue selection, budget planning, décor design, catering, entertainment, vendor sourcing, guest hospitality, travel and accommodation, timelines and on-ground execution. In practice, you make the decisions that matter to you, and we handle everything required to make them happen.",
+      },
+      {
+        question: "Which are the best wedding venues in Delhi NCR?",
+        answer:
+          "It depends entirely on your guest count, style and budget — five-star ballrooms, heritage properties, farmhouses, resort lawns and banquet spaces all work for different weddings. We shortlist venues that genuinely fit your brief, arrange site visits, compare real quotes and negotiate on your behalf.",
+      },
+      {
+        question: "How much does a wedding planner in Delhi cost?",
+        answer:
+          "There's no single fee, because no two weddings are the same size or scope. Cost depends on guest count, number of functions, venue, décor ambition and how much of the planning you want us to carry. We'll give you a clear, itemised proposal built around your budget before you commit to anything.",
+      },
+      {
+        question: "How far in advance should I book a wedding planner?",
+        answer:
+          "Eight to twelve months before the wedding is ideal, and earlier still for peak-season dates or destination weddings. Booking early gives you real access to the best venues and vendors, and far more room to negotiate. That said, we've successfully planned weddings on much shorter timelines — talk to us and we'll tell you honestly what's achievable.",
+      },
+      {
+        question: "Can you plan both luxury and budget-conscious weddings?",
+        answer:
+          "Yes. The professionalism and attention to detail stay identical regardless of budget — what changes is where the money goes. With a tighter budget we're simply more deliberate about prioritising the things you and your guests will actually remember.",
+      },
+      {
+        question: "Do you plan destination weddings from Delhi?",
+        answer:
+          "We do — Jaipur, Udaipur, Goa, Shimla, Mussoorie, Jim Corbett and international destinations included. We handle venue selection, guest travel and accommodation, vendor coordination, décor and full on-site execution, so a wedding far from home still runs as smoothly as one down the road.",
+      },
+      {
+        question: "Can you manage multi-day celebrations?",
+        answer:
+          "Yes, and most of the weddings we plan are exactly that — engagement, mehendi, haldi, sangeet, the ceremony itself and the reception. Each function gets its own design and timeline while the overall experience stays coherent, and our team is on the ground for all of it.",
+      },
+      {
+        question: "Can I plan my Delhi wedding remotely?",
+        answer:
+          "Absolutely — many of our couples live in another city or abroad. We run virtual consultations, share venue and vendor shortlists with photos and video walkthroughs, present designs digitally and send regular updates, handling all local coordination in person on your behalf.",
+      },
+      {
+        question: "Do you handle vendor negotiation and payments?",
+        answer:
+          "Yes. We manage vendor selection, rate negotiation, contracts, payment schedules and day-to-day coordination. Because we work with these vendors repeatedly, we can usually secure better pricing and more reliable service than a one-time booking would get.",
+      },
+      {
+        question: "My venue already provides a coordinator — do I still need a planner?",
+        answer:
+          "A venue coordinator looks after the venue's own operations — banquet setup, catering schedules, in-house services. A wedding planner works for you across every vendor, function and guest touchpoint, from décor and photography to hospitality, transport and budgets. The two roles complement each other rather than overlap.",
+      },
+      {
+        question: "How do you keep the planning process stress-free?",
+        answer:
+          "By making sure there's only ever one thing on your plate at a time. We keep a running timeline, chase every vendor, flag decisions before they become urgent, and solve problems on the day without bringing them to you. You should find out about most issues after they've already been fixed.",
+      },
+      {
+        question: "How do I get started?",
+        answer:
+          "Send us an enquiry with your approximate dates, guest count and the city you're planning in. We'll set up a no-obligation call to understand what you're imagining, and follow up with a clear proposal covering scope, approach and cost.",
+      },
+    ],
+  },
+];

@@ -43,9 +43,20 @@ export default function AboutEditorPage() {
         <ResourceManager resource={RESOURCES.founders} />
 
         <AboutSectionEditor
+          sectionKey="about_founders"
+          title="Founders — Section Heading"
+          fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Meet the team\"." },
+            { name: "title", label: "Heading", help: "Defaults to \"The People Behind Ashraya\"." },
+            { name: "body_markdown", label: "Intro text (optional)", type: "textarea" },
+          ]}
+        />
+
+        <AboutSectionEditor
           sectionKey="about_approach"
           title="Our Approach"
           fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Our approach\"." },
             { name: "title", label: "Heading" },
             { name: "body_markdown", label: "Body text", type: "textarea" },
           ]}
@@ -55,6 +66,7 @@ export default function AboutEditorPage() {
           sectionKey="about_personal"
           title="Personal by Design"
           fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Our philosophy\"." },
             { name: "title", label: "Heading" },
             { name: "body_markdown", label: "Body text", type: "textarea" },
           ]}
@@ -64,6 +76,7 @@ export default function AboutEditorPage() {
           sectionKey="about_journey"
           title="Our Journey"
           fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Our journey\"." },
             { name: "title", label: "Heading" },
             { name: "body_markdown", label: "Body text (the origin story)", type: "textarea" },
             { name: "media_url", label: "Image (optional)", type: "image" },
@@ -71,10 +84,42 @@ export default function AboutEditorPage() {
         />
 
         <Divider label="Recognised Excellence (Awards)" />
+        <AboutSectionEditor
+          sectionKey="about_recognitions"
+          title="Awards — Section Heading"
+          fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Recognised excellence\"." },
+            { name: "title", label: "Heading", help: "Defaults to \"Honoured, but not defined by it\"." },
+            { name: "body_markdown", label: "Closing note below the awards list", type: "textarea" },
+          ]}
+        />
         <ResourceManager resource={RESOURCES.recognitions} />
 
         <Divider label="Destinations We Cover" />
+        <AboutSectionEditor
+          sectionKey="about_destinations"
+          title="Destinations — Section Heading"
+          fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Where we celebrate\"." },
+            { name: "title", label: "Heading", help: "Defaults to \"Destinations\"." },
+            { name: "body_markdown", label: "Intro text (optional)", type: "textarea" },
+          ]}
+        />
         <ResourceManager resource={RESOURCES.destinations} />
+
+        <Divider label="Instagram Feed" />
+        <AboutSectionEditor
+          sectionKey="about_instagram"
+          title="Instagram — Section Heading"
+          fields={[
+            { name: "subtitle", label: "Small label above the heading", help: "Defaults to \"Follow along\"." },
+            { name: "title", label: "Heading", help: "Defaults to \"Moments, as they happen\"." },
+            { name: "body_markdown", label: "Intro text (optional)", type: "textarea" },
+          ]}
+        />
+        <p className="-mt-2 text-sm text-ink-soft">
+          The photos themselves come from <strong>Site Settings → Instagram posts</strong>.
+        </p>
 
         <AboutSectionEditor
           sectionKey="about_cta"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Section from "@/components/ui/Section";
+import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import Breadcrumb from "@/components/shared/Breadcrumb";
@@ -45,17 +46,33 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [hero, approach, personal, journey, cta, recognitions, destinations, founders] =
-    await Promise.all([
-      getPageContent("about_hero"),
-      getPageContent("about_approach"),
-      getPageContent("about_personal"),
-      getPageContent("about_journey"),
-      getPageContent("about_cta"),
-      getRecognitions(),
-      getDestinations(),
-      getFounders(),
-    ]);
+  const [
+    hero,
+    approach,
+    personal,
+    journey,
+    cta,
+    foundersSection,
+    recognitionsSection,
+    destinationsSection,
+    instagramSection,
+    recognitions,
+    destinations,
+    founders,
+  ] = await Promise.all([
+    getPageContent("about_hero"),
+    getPageContent("about_approach"),
+    getPageContent("about_personal"),
+    getPageContent("about_journey"),
+    getPageContent("about_cta"),
+    getPageContent("about_founders"),
+    getPageContent("about_recognitions"),
+    getPageContent("about_destinations"),
+    getPageContent("about_instagram"),
+    getRecognitions(),
+    getDestinations(),
+    getFounders(),
+  ]);
 
   const domestic = destinations.filter((d) => d.region === "Domestic");
   const international = destinations.filter((d) => d.region === "International");
@@ -130,12 +147,17 @@ export default async function AboutPage() {
           side per founder, same pattern as Our Journey below. */}
       {founders.length > 0 && (
         <Section id="founder-story" tone="cream" className="scroll-mt-28">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow text-gold-dark">{founders.length > 1 ? "Meet the team" : "Meet the founder"}</p>
-            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
-              {founders.length > 1 ? "The People Behind Ashraya" : founders[0].name}
-            </h2>
-          </Reveal>
+          <SectionHeading
+            eyebrow={
+              foundersSection.subtitle ||
+              (founders.length > 1 ? "Meet the team" : "Meet the founder")
+            }
+            title={
+              foundersSection.title ||
+              (founders.length > 1 ? "The People Behind Ashraya" : founders[0].name)
+            }
+            intro={foundersSection.bodyMarkdown}
+          />
 
           <div className="mt-16 space-y-20">
             {founders.map((f, i) => (
@@ -175,7 +197,7 @@ export default async function AboutPage() {
       {approach.isPublished && (
         <Section tone="sand">
           <Reveal className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow text-gold-dark">Our approach</p>
+            <p className="eyebrow text-gold-dark">{approach.subtitle || "Our approach"}</p>
             <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
               {approach.title || "Our Approach"}
             </h2>
@@ -191,7 +213,7 @@ export default async function AboutPage() {
       {personal.isPublished && (
         <Section tone="cream">
           <Reveal className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow text-gold-dark">Our philosophy</p>
+            <p className="eyebrow text-gold-dark">{personal.subtitle || "Our philosophy"}</p>
             <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
               {personal.title || "Personal by Design"}
             </h2>
@@ -208,7 +230,7 @@ export default async function AboutPage() {
         <Section tone="sand">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <Reveal delayIndex={1} className="order-2 lg:order-1">
-              <p className="eyebrow text-gold-dark">Our journey</p>
+              <p className="eyebrow text-gold-dark">{journey.subtitle || "Our journey"}</p>
               <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
                 {journey.title || "A Journey Beyond Borders"}
               </h2>
@@ -233,14 +255,12 @@ export default async function AboutPage() {
       )}
 
       {/* Recognised Excellence */}
-      {recognitions.length > 0 && (
+      {recognitions.length > 0 && recognitionsSection.isPublished && (
         <Section tone="cream">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow text-gold-dark">Recognised excellence</p>
-            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
-              Honoured, but not defined by it
-            </h2>
-          </Reveal>
+          <SectionHeading
+            eyebrow={recognitionsSection.subtitle || "Recognised excellence"}
+            title={recognitionsSection.title || "Honoured, but not defined by it"}
+          />
           <ul className="mx-auto mt-10 max-w-xl space-y-4">
             {recognitions.map((r, i) => (
               <Reveal key={r} delayIndex={i % 4}>
@@ -251,20 +271,21 @@ export default async function AboutPage() {
               </Reveal>
             ))}
           </ul>
-          <p className="mx-auto mt-8 max-w-xl text-center text-ink-soft">
-            While these honours mean a great deal to us, our greatest reward is
-            still hearing a couple say their celebration felt truly like them.
+          <p className="mx-auto mt-8 max-w-xl whitespace-pre-line text-center text-ink-soft">
+            {recognitionsSection.bodyMarkdown ||
+              "While these honours mean a great deal to us, our greatest reward is still hearing a couple say their celebration felt truly like them."}
           </p>
         </Section>
       )}
 
       {/* Destinations */}
-      {destinations.length > 0 && (
+      {destinations.length > 0 && destinationsSection.isPublished && (
         <Section tone="sand">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow text-gold-dark">Where we celebrate</p>
-            <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">Destinations</h2>
-          </Reveal>
+          <SectionHeading
+            eyebrow={destinationsSection.subtitle || "Where we celebrate"}
+            title={destinationsSection.title || "Destinations"}
+            intro={destinationsSection.bodyMarkdown}
+          />
           <div className="mx-auto mt-12 grid max-w-2xl gap-10 sm:grid-cols-2">
             {domestic.length > 0 && (
               <Reveal>
@@ -291,15 +312,16 @@ export default async function AboutPage() {
       )}
 
       {/* Instagram */}
-      <Section tone="cream">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-dark">Follow along</p>
-          <h2 className="mt-4 text-4xl text-maroon sm:text-5xl text-balance">
-            Moments, as they happen
-          </h2>
-        </Reveal>
-        <InstagramStrip />
-      </Section>
+      {instagramSection.isPublished && (
+        <Section tone="cream">
+          <SectionHeading
+            eyebrow={instagramSection.subtitle || "Follow along"}
+            title={instagramSection.title || "Moments, as they happen"}
+            intro={instagramSection.bodyMarkdown}
+          />
+          <InstagramStrip />
+        </Section>
+      )}
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-maroon py-24 text-cream">
